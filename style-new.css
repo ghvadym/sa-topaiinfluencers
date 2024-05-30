@@ -1,0 +1,13 @@
+
+
+            .site {
+                background: url(img/bg2.png);
+                -webkit-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+                background-repeat: no-repeat;
+                padding: 0;
+                margin: 0;
+                position: relative;
+                z-index: 99;
+            }
