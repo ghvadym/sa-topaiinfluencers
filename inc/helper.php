@@ -15,7 +15,7 @@ if (!function_exists('get_template_part_var')) {
     function get_template_part_var($template, $data = [])
     {
         extract($data);
-        require locate_template($template . '.php');
+        require locate_template("template-parts/{$template}.php");
     }
 }
 
@@ -150,7 +150,7 @@ function get_thumbnail_url(int $post_id = 0, string $size = 'large'): string
         $post_id = get_the_ID();
     }
 
-    $default_image = get_stylesheet_directory_uri() . '/assets/img/noimage.svg';
+    $default_image = get_stylesheet_directory_uri() . '/assets/img/noimage.webp';
 
     if (!has_post_thumbnail($post_id)) {
         return $default_image;
@@ -165,20 +165,7 @@ function img_url(string $image_name = '')
         $image_name = get_stylesheet_directory_uri() . 'noimage.svg';
     }
 
-    echo get_stylesheet_directory_uri() . '/assets/img/' . $image_name;
-}
-
-function base64_file(string $file_path = ''): string
-{
-    $file_mime = mime_content_type($file_path);
-
-    if (!$file_mime) {
-        return '';
-    }
-
-    $file_content = file_get_contents($file_path);
-
-    return 'data:' . $file_mime . ';base64,' . base64_encode($file_content);
+    echo get_stylesheet_directory_uri() . '/dest/img/' . $image_name;
 }
 
 function is_mobile(): bool

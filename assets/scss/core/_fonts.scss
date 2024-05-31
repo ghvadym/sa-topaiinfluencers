@@ -1,8 +1,0 @@
-$icons: (
-    'Gotham' 'GothamPro-Bold' 600 normal,
-    'Lato' 'Lato-Italic' 400 italic
-);
-
-@each $name, $filename, $font-weight, $font-style in $icons {
-    @include font($name, $filename, $font-weight, $font-style);
-}

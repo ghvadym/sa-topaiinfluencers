@@ -3,13 +3,13 @@
         <div class="row">
             <div class="col-12">
                 <h1>
-                    <?php _e('Page 404', 'woplab'); ?>
+                    <?php _e('Page 404', DOMAIN); ?>
                 </h1>
                 <div class="content">
                     <p>
-                        <?php _e('Return to home page', 'woplab'); ?>
+                        <?php _e('Return to home page', DOMAIN); ?>
                         <a href="<?php home_url(); ?>">
-                            <?php _e('Home Page', 'woplab'); ?>
+                            <?php _e('Home Page', DOMAIN); ?>
                         </a>
                     </p>
                 </div>

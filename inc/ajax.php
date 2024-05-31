@@ -6,8 +6,6 @@ register_ajax([
 
 function get_posts_request()
 {
-    //Example of ajax request processing
-
     $data = sanitize_post($_POST);
     $args = [];
 
@@ -38,7 +36,7 @@ function get_posts_request()
             ]);
         }
     } else {
-        echo '<p>' . __('Posts not found', 'woplab') . '</p>';
+        echo '<p>' . __('Posts not found', DOMAIN) . '</p>';
     }
 
     $html = ob_get_contents();

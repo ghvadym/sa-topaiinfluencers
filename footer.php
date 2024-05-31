@@ -13,9 +13,9 @@ wp_footer();
                 </div>
             <?php endif; ?>
             <div class="footer__menu">
-                <?php get_widgets([
+                <?php /*get_widgets([
                     'Footer nav 1'
-                ]); ?>
+                ]);*/ ?>
             </div>
         </div>
     </div>

@@ -1,8 +1,8 @@
 # WOP lab Default theme
-## Gulp.js usage
+## Vite.js usage
 - Open dev folder in the terminal
 - Install packages: **npm i** *(do it once)*
-- Run gulp file: *npm run start*
+- Run watcher: *npm run watch*
 
 ## Styles
 ### Fonts connections

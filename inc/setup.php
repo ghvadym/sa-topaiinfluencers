@@ -7,10 +7,11 @@ add_filter('use_widgets_block_editor', '__return_false');
 add_action('wp_enqueue_scripts', 'wp_enqueue_scripts_call');
 function wp_enqueue_scripts_call()
 {
-    wp_enqueue_style('main-style', WOP_THEME_URL . '/assets/css/app.css');
-    wp_enqueue_script('main-script', WOP_THEME_URL . '/assets/js/app.js', ['jquery'], time());
+    //wp_enqueue_style('old-styles', TAI_THEME_URL . '/dest/css/old-styles.css');
+    wp_enqueue_style('main-styles', TAI_THEME_URL . '/dest/css/app-styles.css');
+    wp_enqueue_script('main-scripts', TAI_THEME_URL . '/dest/js/app-scripts.js', ['jquery'], time());
 
-    wp_localize_script('main-script', 'wopajax', [
+    wp_localize_script('main-scripts', 'taiajax', [
         'ajaxurl' => admin_url('admin-ajax.php'),
     ]);
 }
@@ -19,7 +20,7 @@ add_action('after_setup_theme', 'after_setup_theme_call');
 function after_setup_theme_call()
 {
     register_nav_menus([
-        'main_header' => __('Main Header', 'woplab')
+        'main_header' => __('Main Header', DOMAIN)
     ]);
 
     add_post_type_support('page', 'excerpt');
@@ -39,7 +40,7 @@ function after_setup_theme_call()
         ]);
     }
 
-    load_theme_textdomain('woplab', get_template_directory() . '/languages');
+    load_theme_textdomain(DOMAIN, get_template_directory() . '/languages');
 }
 
 add_action('admin_menu', 'remove_default_post_types');

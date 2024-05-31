@@ -1,0 +1,1 @@
+(function(e){e(document).ready(function(){taiajax.ajaxurl;const c=e(".header_burger_icon"),o=e(".header_close_icon"),n=e("#header");n.length&&c.length&&o.length&&e(document).on("click",".header_burger_icon, .header_close_icon",function(){e(n).toggleClass("active-menu")})})})(jQuery);

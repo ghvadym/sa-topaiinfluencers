@@ -16,6 +16,12 @@
     }
 }
 
+@mixin flex-center()
+{
+    display: flex;
+    align-items: center;
+}
+
 @mixin pointer() {
     @include response-min($laptop-landscape + 1) {
         cursor: pointer;

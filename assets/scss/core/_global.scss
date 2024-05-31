@@ -12,11 +12,11 @@ body {
     margin: 0;
     min-height: 100vh;
     overflow-x: hidden;
-    color: $color-font-dark;
-    font-family: 'Lato', sans-serif;
+    color: $color-font;
+    font-family: 'Hind', sans-serif;
     font-weight: 300;
     font-size: 1.8rem;
-    background: rgba(255, 255, 255, 1);
+    background: rgba(1, 0, 8, 1);
     display: flex;
     flex-direction: column;
 
@@ -31,7 +31,7 @@ main {
 
 a {
     text-decoration: none;
-    color: $color-font-dark;
+    color: $color-font;
     transition: color ease-in-out 0.2s;
 
     &:hover, &:focus {
@@ -56,7 +56,8 @@ h3,
     margin: 0 0 15px;
     font-weight: 600;
     line-height: 1.2;
-    font-family: 'Gotham', sans-serif;
+    font-family: 'Bruno Ace SC', sans-serif;
+    letter-spacing: 2px;
 }
 
 h1 {
@@ -86,7 +87,8 @@ img {
 }
 
 .logo {
-    max-width: 70px;
+    max-width: 101px;
+    flex-shrink: 0;
 
     img {
         @extend .contain;
@@ -127,22 +129,18 @@ img {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1304px;
     width: 100%;
     margin: 0 auto;
-    padding: 0 30px;
-
-    @include response-max($laptop-portrait - 1) {
-        padding: 0 20px;
-    }
+    padding: 0 32px;
 }
 
 .section {
-    padding: 100px 0;
+    padding: 80px 0;
     position: relative;
 
     @include response-max($laptop-portrait - 1) {
-        padding: 50px 0;
+        padding: 32px 0;
     }
 }
 
@@ -214,28 +212,39 @@ img {
 }
 
 .btn {
+    background: rgb(53, 4, 119);
+    background: linear-gradient(90deg, rgba(53, 4, 119, 1) 17%, rgba(99, 5, 117, 1) 74%);
     display: inline-block;
-    background-color: $color-main;
-    color: $color-font-light;
-    font-size: 1.8rem;
+    font-family: 'Bruno Ace SC', sans-serif;
+    letter-spacing: 2px;
+    color: $color-font;
+    font-size: 1.6rem;
+    line-height: 1;
+    white-space: nowrap;
     font-weight: 600;
-    min-width: 216px;
     text-align: center;
-    padding: 10px;
+    padding: 14px 25px;
     position: relative;
     border: none;
-    cursor: pointer;
-    transition: background-color ease-in-out 0.2s;
+    border-radius: 24px;
+    transition: ease-in-out 0.2s;
+    text-transform: capitalize;
+
+    &.disabled, &[disabled] {
+        opacity: 0.5;
+    }
 
     @include response-min($laptop-landscape + 1) {
+        cursor: pointer;
+
         &:hover, &:focus {
             outline: none;
             text-decoration: none;
-            background-color: $color-main-hover;
+            opacity: 0.5;
         }
     }
 
-    @include response-max($laptop-portrait - 1) {
+    @include response-max($mobile) {
         max-width: 100%;
         min-width: 100%;
         width: 100%;
