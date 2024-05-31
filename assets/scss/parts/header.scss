@@ -42,13 +42,16 @@
             }
 
             &.partner {
-                @include response-min($header-responsive + 1) {
+                @include response-min($header-responsive) {
                     margin-left: 50px;
                 }
 
                 a {
                     @extend .btn;
-                    min-width: 296px;
+
+                    @include response-max($header-responsive) {
+                        min-width: 296px;
+                    }
                 }
             }
 
@@ -110,7 +113,7 @@
 }
 
 .header__burger {
-    @include response-min($header-responsive + 1) {
+    @include response-min($header-responsive) {
         display: none;
     }
 

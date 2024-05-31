@@ -162,10 +162,29 @@ function get_thumbnail_url(int $post_id = 0, string $size = 'large'): string
 function img_url(string $image_name = '')
 {
     if (!$image_name) {
-        $image_name = get_stylesheet_directory_uri() . 'noimage.svg';
+        return;
     }
 
     echo get_stylesheet_directory_uri() . '/dest/img/' . $image_name;
+}
+
+function get_thumbnail_html(int $post_id = 0, string $label = '', string $size = 'large'): string
+{
+    if (!$post_id) {
+        return '';
+    }
+
+    $image_url = get_stylesheet_directory_uri() . '/dest/img/noimage.svg';
+
+    if (has_post_thumbnail($post_id)) {
+        $image_url = get_the_post_thumbnail_url($post_id, $size);
+        $image_id = get_post_thumbnail_id($post_id);
+        if ($image_id) {
+            $label = get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: $label;
+        }
+    }
+
+    return sprintf('<img src="%1$s" alt="%2$s" title="%3$s">', $image_url, $label, $label);
 }
 
 function is_mobile(): bool
