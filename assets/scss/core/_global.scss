@@ -1,0 +1,243 @@
+*, :after, :before {
+    box-sizing: border-box;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+    font-size: 10px;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: $color-font-dark;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: 1.8rem;
+    background: rgba(255, 255, 255, 1);
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: $laptop-portrait - 1) {
+        font-size: 1.6rem;
+    }
+}
+
+main {
+    padding-top: 100px;
+}
+
+a {
+    text-decoration: none;
+    color: $color-font-dark;
+    transition: color ease-in-out 0.2s;
+
+    &:hover, &:focus {
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.7);
+    }
+}
+
+p {
+    margin: 0 0 5px 0;
+}
+
+input,
+button {
+    font-family: inherit;
+}
+
+h1,
+h2,
+h3,
+.bold {
+    margin: 0 0 15px;
+    font-weight: 600;
+    line-height: 1.2;
+    font-family: 'Gotham', sans-serif;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 3.6rem;
+
+    @media (max-width: $laptop-portrait - 1) {
+        font-size: 2.4rem;
+    }
+}
+
+h3 {
+    font-size: 2rem;
+}
+
+.title {
+    @extend h2;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-position: center;
+}
+
+.logo {
+    max-width: 70px;
+
+    img {
+        @extend .contain;
+    }
+}
+
+.contain {
+    object-fit: contain;
+}
+
+.cover {
+    object-fit: cover;
+}
+
+.background {
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.bg-contain {
+    @extend .background;
+    background-size: contain;
+}
+
+.bg-cover {
+    @extend .background;
+    background-size: cover;
+}
+
+.logo {
+    @extend .contain;
+}
+
+@include response-max($laptop-portrait) {
+    #wpadminbar {
+        display: none;
+    }
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 30px;
+
+    @include response-max($laptop-portrait - 1) {
+        padding: 0 20px;
+    }
+}
+
+.section {
+    padding: 100px 0;
+    position: relative;
+
+    @include response-max($laptop-portrait - 1) {
+        padding: 50px 0;
+    }
+}
+
+.main {
+    flex-grow: 1;
+}
+
+.pointer {
+    @include response-min($laptop-landscape + 1) {
+        cursor: pointer;
+    }
+}
+
+.event-none {
+    pointer-events: none;
+}
+
+.no-scroll {
+    overflow: hidden;
+}
+
+.d-block {
+    display: block;
+}
+
+.d-flex {
+    display: flex;
+    align-items: center;
+}
+
+.d-flex-center {
+    @extend .d-flex;
+    justify-content: center;
+}
+
+.d-flex-column {
+    @extend .d-flex;
+    flex-direction: column;
+}
+
+._preloader {
+    pointer-events: none;
+    position: relative;
+    background: rgba(225, 226, 227, 0.8);
+}
+
+._preloader:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: rgba(255, 255, 255, .5);
+    backdrop-filter: blur(0);
+}
+
+._preloader:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: url('../img/preloader.gif') center / contain no-repeat;
+    width: 70px;
+    height: 70px;
+    z-index: 100;
+}
+
+.btn {
+    display: inline-block;
+    background-color: $color-main;
+    color: $color-font-light;
+    font-size: 1.8rem;
+    font-weight: 600;
+    min-width: 216px;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    border: none;
+    cursor: pointer;
+    transition: background-color ease-in-out 0.2s;
+
+    @include response-min($laptop-landscape + 1) {
+        &:hover, &:focus {
+            outline: none;
+            text-decoration: none;
+            background-color: $color-main-hover;
+        }
+    }
+
+    @include response-max($laptop-portrait - 1) {
+        max-width: 100%;
+        min-width: 100%;
+        width: 100%;
+    }
+}

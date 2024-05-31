@@ -1,0 +1,22 @@
+{
+  "name": "theme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "start": "gulp start"
+  },
+  "browserslist": [
+    "last 2 versions"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^8.0.0",
+    "gulp-clean-css": "^4.3.0",
+    "sass": "^1.66.1",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-dart-sass": "^1.0.2"
+  }
+}

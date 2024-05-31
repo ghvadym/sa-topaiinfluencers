@@ -1,70 +1,198 @@
-[![Build Status](https://travis-ci.org/Automattic/_s.svg?branch=master)](https://travis-ci.org/Automattic/_s)
+# WOP lab Default theme
+## Gulp.js usage
+- Open dev folder in the terminal
+- Install packages: **npm i** *(do it once)*
+- Run gulp file: *npm run start*
 
-_s
-===
-
-Hi. I'm a starter theme called `_s`, or `underscores`, if you like. I'm a theme meant for hacking so don't use me as a Parent Theme. Instead try turning me into the next, most awesome, WordPress theme out there. That's what I'm here for.
-
-My ultra-minimal CSS might make me look like theme tartare but that means less stuff to get in your way when you're designing your awesome theme. Here are some of the other more interesting things you'll find here:
-
-* A modern workflow with a pre-made command-line interface to turn your project into a more pleasant experience.
-* A just right amount of lean, well-commented, modern, HTML5 templates.
-* A custom header implementation in `inc/custom-header.php`. Just add the code snippet found in the comments of `inc/custom-header.php` to your `header.php` template.
-* Custom template tags in `inc/template-tags.php` that keep your templates clean and neat and prevent code duplication.
-* Some small tweaks in `inc/template-functions.php` that can improve your theming experience.
-* A script at `js/navigation.js` that makes your menu a toggled dropdown on small screens (like your phone), ready for CSS artistry. It's enqueued in `functions.php`.
-* 2 sample layouts in `sass/layouts/` made using CSS Grid for a sidebar on either side of your content. Just uncomment the layout of your choice in `sass/style.scss`.
-Note: `.no-sidebar` styles are automatically loaded.
-* Smartly organized starter CSS in `style.css` that will help you to quickly get your design off the ground.
-* Full support for `WooCommerce plugin` integration with hooks in `inc/woocommerce.php`, styling override woocommerce.css with product gallery features (zoom, swipe, lightbox) enabled.
-* Licensed under GPLv2 or later. :) Use it to make something cool.
-
-Installation
----------------
-
-### Requirements
-
-`_s` requires the following dependencies:
-
-- [Node.js](https://nodejs.org/)
-- [Composer](https://getcomposer.org/)
-
-### Quick Start
-
-Clone or download this repository, change its name to something else (like, say, `megatherium-is-awesome`), and then you'll need to do a six-step find and replace on the name in all the templates.
-
-1. Search for `'tai'` (inside single quotations) to capture the text domain and replace with: `'megatherium-is-awesome'`.
-2. Search for `tai_` to capture all the functions names and replace with: `megatherium_is_awesome_`.
-3. Search for `Text Domain: tai` in `style.css` and replace with: `Text Domain: megatherium-is-awesome`.
-4. Search for <code>&nbsp;_s</code> (with a space before it) to capture DocBlocks and replace with: <code>&nbsp;Megatherium_is_Awesome</code>.
-5. Search for `tai-` to capture prefixed handles and replace with: `megatherium-is-awesome-`.
-6. Search for `TAI_` (in uppercase) to capture constants and replace with: `MEGATHERIUM_IS_AWESOME_`.
-
-Then, update the stylesheet header in `style.css`, the links in `footer.php` with your own information and rename `_s.pot` from `languages` folder to use the theme's slug. Next, update or delete this readme.
-
-### Setup
-
-To start using all the tools that come with `_s`  you need to install the necessary Node.js and Composer dependencies :
-
-```sh
-$ composer install
-$ npm install
+## Styles
+### Fonts connections
+Just add new line with font settings to the **$icons** array
+```scss
+$icons: (
+    'Gotham' 'GothamPro-Bold' 600 normal,
+    'Lato' 'Lato-Italic' 400 italic
+);
 ```
 
-### Available CLI commands
+### Creating new style file
+Create new file e.g. '/assets/scss/pages/front-page.scss'
 
-`_s` comes packed with CLI commands tailored for WordPress theme development :
+Go to the app.scss and connect them
+```scss
+@import "pages/front-page";
+```
 
-- `composer lint:wpcs` : checks all PHP files against [PHP Coding Standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/php/).
-- `composer lint:php` : checks all PHP files for syntax errors.
-- `composer make-pot` : generates a .pot file in the `languages/` directory.
-- `npm run compile:css` : compiles SASS files to css.
-- `npm run compile:rtl` : generates an RTL stylesheet.
-- `npm run watch` : watches all SASS files and recompiles them to css when they change.
-- `npm run lint:scss` : checks all SASS files against [CSS Coding Standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/css/).
-- `npm run lint:js` : checks all JavaScript files against [JavaScript Coding Standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/javascript/).
-- `npm run bundle` : generates a .zip archive for distribution, excluding development and system files.
+## Backend
+Write the code in the files which suitable for your aims, if it's needed to create new ones and connect them in the **init.php** file *( inc/init.php )*
+```php
+$files = [
+    'add new file name here'
+];
+```
+p.s. Take care of the correct order.
 
-Now you're ready to go! The next step is easy to say, but harder to do: make an awesome WordPress theme. :)
+### Helper functions
+Write backend logic in separated files. Use functions from the **inc** folder in order to make your code cleaner. Create new functions in the suitable files.
 
-Good luck!
+### Templates parts
+
+Use template parts to move the code to a separated templates
+```php
+//Standard
+get_template_part('template-parts/cards/card/card', 'post', $post);
+
+//OR
+
+//Custom function
+get_template_part_var('template-parts/cards/card/card-post', [
+    'post' => $post
+]);
+```
+
+### Avoid critical errors via checking data on existing and empty before using them
+
+```php
+//Connected template parts
+
+//Example for get_template_part
+if (empty($args)) {
+    return;
+}
+
+//Example for get_template_part_var
+if (empty($post)) {
+    return;
+}
+
+//Example for functions
+function get_thumbnail_url(int $post_id = 0, string $size = 'large'): string
+{
+    if (!$post_id) {
+        return '';
+    }
+    //code
+}
+```
+
+Create understandable names for variables and functions in order to avoid unnecessary comments with descriptions.
+
+## Functions
+
+### get_svg()
+
+Getting svg file by name
+
+```php
+get_svg('icon_name');
+```
+
+### _get_field()
+This function do check and return html, if the field has value.
+```php
+$fields = get_post_meta($post->ID);
+// OR $fields = get_fields($post->ID);
+
+$subtitle = get_post_meta($post->ID, 'default_post_subtitle', true);
+//OR $subtitle = get_field('default_post_subtitle', $post->ID);
+//OR $subtitle = $fields['default_post_subtitle']);
+
+_get_field($subtitle, 'card__footer');
+```
+
+```html
+<!--Result-->
+<div class="card__footer">
+    $subtitle value
+</div>
+<!--Or empty value if $subtitle is empty-->
+```
+
+## _get_posts() and _get_terms()
+These functions contain default arguments, you should add/overwrite them by adding yours in the argument.
+```php
+$posts = _get_posts([
+    'post_status' => ['publish', 'draft'],
+    'numberposts' => 1
+]);
+
+$product_cat = _get_terms([
+    'taxonomy' => 'product_cat',
+    'number'   => 1
+]);
+```
+
+## register_ajax()
+Use this function for registering ajax. You just must add title to the array in the function argument.
+```php
+register_ajax([
+    'get_posts_request'
+]);
+
+function get_posts_request()
+{
+    //Processing ajax request 
+}
+```
+Add action argument to your ajax request
+```javascript
+$.ajax({
+    //Arguments
+    data : {
+        'action' : 'get_posts_request'
+    }
+    //Processing
+});
+```
+
+### get_widgets()
+Add titles of created widgets for output them
+```php
+get_widgets([
+    'Footer nav 1',
+    'Footer nav 2',
+    'Footer nav 3'
+]);
+```
+### insert_log_data()
+This function writing data to the file in the root ot theme.
+```php
+insert_log_data($response_api->items);
+```
+
+### cut_str()
+Cutting string, removing tags, spaces and encoding to UTF-8.
+```php
+cut_str($post->post_content, 200);
+```
+
+### get_thumbnail_url()
+Get the post thumbnail url and replace it with the default image url if it does not exist.
+```php
+get_thumbnail_url($post->ID, 'medium');
+```
+
+### img_url()
+Get image url by name. The image must be in the folder **assets/img**.
+```php
+img_url('arrow.svg');
+```
+
+### base64_file()
+Generating base46 file by path.
+```php
+base64_file(get_stylesheet_directory() . '/assets/img/certificate.jpeg');
+```
+
+### load_file_by_url()
+Upload a new attachment by url.
+```php
+load_file_by_url($file_url);
+```
+
+### save_file()
+Upload a new attachment using $_FILES.
+```php
+$img = $_FILES['post-img'] ?? '';
+$img_id = save_file($img);
+```
+

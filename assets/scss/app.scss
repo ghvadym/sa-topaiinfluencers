@@ -1,0 +1,14 @@
+//Core
+@import "core/variables";
+@import "core/mixins";
+@import "core/normalize";
+@import "core/fonts";
+@import "core/boot";
+@import "core/global";
+
+//Parts
+@import "parts/header";
+@import "parts/footer";
+
+//Pages
+@import "pages/front-page";

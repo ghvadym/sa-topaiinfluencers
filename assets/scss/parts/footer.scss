@@ -1,0 +1,14 @@
+[id=footer] {
+    width: 100%;
+    padding: 20px 0;
+    background-color: black;
+    z-index: 10;
+
+    * {
+        color: $color-font-light;
+    }
+}
+
+.footer__menu {
+    margin-left: auto;
+}

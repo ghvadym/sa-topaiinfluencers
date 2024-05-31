@@ -1,0 +1,75 @@
+@mixin response-max($size) {
+    @media only screen and (max-width: $size) {
+        @content;
+    }
+}
+
+@mixin response-min($size) {
+    @media only screen and (min-width: $size) {
+        @content;
+    }
+}
+
+@mixin response-range($min, $max) {
+    @media only screen and (min-width: $min) and (max-width: $max) {
+        @content;
+    }
+}
+
+@mixin pointer() {
+    @include response-min($laptop-landscape + 1) {
+        cursor: pointer;
+    }
+}
+
+@mixin line-break($rows) {
+    -webkit-line-clamp: $rows;
+    -webkit-box-orient: vertical;
+    overflow-y: hidden;
+    word-break: keep-all;
+    display: -webkit-box;
+}
+
+@mixin font($fontname, $filename, $fontweight, $fontstyle) {
+    @font-face {
+        font-family: $fontname;
+        src: local($fontname),
+            url(#{ $theme-fonts-url + $filename + '.woff2'}) format('woff2'),
+            url(#{ $theme-fonts-url + $filename + '.ttf'}) format('truetype');
+        font-weight: $fontweight;
+        font-style: $fontstyle;
+        font-display: swap;
+    }
+}
+
+@mixin scrollbar {
+    overflow-x: auto;
+
+    &::-webkit-scrollbar {
+        width: 2px;
+        height: 2px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+}
+
+@mixin user-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 12px;
+    flex-shrink: 0;
+
+    & > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
