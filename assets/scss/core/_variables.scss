@@ -1,7 +1,8 @@
-$color-main: '';
+$color-main: #1a0330;
 $color-main-hover: '';
 
 $color-font: rgba(255, 255, 255, 1);
+$color-font-hover: linear-gradient(90deg, #6202F3 0%, #D600E4 100%);
 
 $box-shadow-card: '';
 $box-shadow-card-hover: '';
@@ -9,6 +10,7 @@ $box-shadow-card-hover: '';
 $transition: 0.3s ease-in-out;
 
 $laptop-landscape: 1024px;
+$desktop: 1025px;
 $laptop-portrait: 768px;
 $mobile: 576px;
 $header-responsive: 1250px;

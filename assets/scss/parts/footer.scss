@@ -1,14 +1,112 @@
 [id=footer] {
-    width: 100%;
-    padding: 20px 0;
-    background-color: black;
-    z-index: 10;
-
     * {
         color: $color-font;
     }
+
+    .menu {
+        li {
+            a {
+                padding: 12px 24px;
+
+                @include response-min($desktop) {
+                    &:hover {
+                        text-decoration: underline;
+                        background: $color-font-hover;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                    }
+                }
+            }
+        }
+    }
 }
 
-.footer__menu {
-    margin-left: auto;
+.footer_row {
+    width: 100%;
+    background: rgb(27, 6, 66);
+    background: linear-gradient(90deg, rgba(27, 6, 66, 1) 15%, rgba(16, 10, 28, 1) 51%, rgba(51, 7, 54, 1) 89%);
+    border-radius: 20px;
+    padding: 32px;
+    display: flex;
+
+    @include response-min($laptop-landscape - 1) {
+        justify-content: space-between;
+    }
+
+    @include response-max($laptop-landscape) {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.footer__col {
+    width: 100%;
+
+    &:nth-child(2), &:nth-child(3) {
+        display: flex;
+        justify-content: center;
+    }
+
+    @include response-max($laptop-landscape) {
+        &:not(:last-child) {
+            margin-bottom: 32px;
+        }
+
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.footer__logo {
+    margin-bottom: 20px;
+    height: 40px;
+    width: 100px;
+}
+
+.footer__text {
+    max-width: 264px;
+    line-height: 22px;
+}
+
+.socials {
+    margin: 0 -7px;
+    display: flex;
+
+    @include response-min($laptop-landscape - 1) {
+        justify-content: flex-end;
+    }
+
+    @include response-max($laptop-landscape) {
+        justify-content: center;
+    }
+}
+
+.social__item {
+    margin: 0 7px;
+    width: 27px;
+    height: 27px;
+    position: relative;
+    z-index: 2;
+
+    &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        transition: $transition;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        box-shadow: 0 0 10px 4px rgba(186, 0, 178, 0.36);
+        opacity: 0;
+    }
+
+    @include response-min($desktop) {
+        &:hover {
+            &:before {
+                opacity: 1;
+            }
+        }
+    }
 }

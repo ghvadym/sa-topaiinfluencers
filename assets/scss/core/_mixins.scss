@@ -23,7 +23,7 @@
 }
 
 @mixin pointer() {
-    @include response-min($laptop-landscape + 1) {
+    @include response-min($desktop) {
         cursor: pointer;
     }
 }
