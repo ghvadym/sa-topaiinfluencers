@@ -7,12 +7,13 @@
         grid-template-columns: repeat(2, 1fr);
     }
 
-    @include response-min($laptop-portrait) {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
     @include response-min($laptop-landscape) {
         grid-template-columns: repeat(4, 1fr);
+    }
+
+    @include response-max($laptop-landscape) {
+        grid-column-gap: 16px;
+        grid-row-gap: 16px;
     }
 }
 
@@ -20,6 +21,10 @@
     border-radius: 24px;
     background: rgb(35, 11, 78);
     background: linear-gradient(25deg, rgba(35, 11, 78, 1) 0%, rgba(29, 14, 41, 1) 51%, rgba(77, 11, 85, 1) 100%);
+
+    @include response-max($mobile) {
+        border-radius: 16px;
+    }
 }
 
 .article__body {
@@ -34,6 +39,10 @@
 
     &.cropped-img {
         aspect-ratio: 9 / 12;
+
+        @include response-max($mobile) {
+            aspect-ratio: 9 / 10;
+        }
 
         img {
             object-position: left;
@@ -68,6 +77,16 @@
     line-height: 33.6px;
     color: #fff;
     font-family: 'Hind', sans-serif;
+    transition: $transition;
+    @include line-break(2);
+
+    @include response-min($desktop) {
+        a {
+            &:hover {
+                color: rgba(207, 0, 218, 1);
+            }
+        }
+    }
 }
 
 .article__socials {
@@ -76,7 +95,7 @@
     justify-content: space-around;
     align-items: flex-end;
     position: absolute;
-    right: 12px;
+    right: 0;
     top: 0;
     bottom: 0;
     height: 100%;
@@ -84,6 +103,9 @@
     opacity: 0;
     visibility: hidden;
     transition: $transition;
+    padding-right: 12px;
+    background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(2px);
 }
 
 .article__social {
@@ -103,7 +125,7 @@
     }
 }
 
-.article:hover {
+.article__img:hover {
     .article__socials {
         opacity: 1;
         visibility: visible;
@@ -112,7 +134,7 @@
 
 .articles__btn {
     text-align: center;
-    margin: 32px 0;
+    margin: 32px 0 0;
 }
 
 .articles__title {
@@ -121,7 +143,12 @@
     line-height: 59.4px;
     letter-spacing: 0.02em;
     margin-bottom: 40px;
-    @include line-break(2);
+
+    @include response-max($mobile) {
+        font-size: 28px;
+        line-height: 30.8px;
+        margin-bottom: 24px;
+    }
 }
 
 .article__text {

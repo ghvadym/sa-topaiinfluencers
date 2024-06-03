@@ -1,6 +1,6 @@
 <?php
 $posts = get_posts([
-    'numberposts'   => 8,
+    'numberposts'   => wp_is_mobile() ? 4 : 8,
     'orderby'       => 'comment_count',
     'order'         => 'DESC',
     'category_name' => 'popular-vtubers'

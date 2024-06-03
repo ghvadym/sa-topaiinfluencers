@@ -9,16 +9,18 @@ $author_name = get_the_author_meta('display_name', $author_id);
 $author_avatar = get_avatar_url($author_id);
 ?>
 
-<a href="<?php echo get_the_permalink($post); ?>"
-   class="article<?php echo !empty($full_card_info) ? ' full-card' : ''; ?>">
+<div class="article<?php echo !empty($full_card_info) ? ' full-card' : ''; ?>">
     <div class="article__body">
-        <div class="article__img<?php echo empty($full_card_info) ? ' cropped-img' : ''; ?>">
+        <a href="<?php echo get_the_permalink($post); ?>"
+           class="article__img<?php echo empty($full_card_info) ? ' cropped-img' : ''; ?>">
             <?php echo $thumbnail; ?>
             <?php get_template_part_var('cards/card-socials'); ?>
-        </div>
+        </a>
         <div class="article__content">
             <h3 class="article__title">
-                <?php echo esc_html($post->post_title); ?>
+                <a href="<?php echo get_the_permalink($post); ?>">
+                    <?php echo esc_html($post->post_title); ?>
+                </a>
             </h3>
             <?php if (!empty($full_card_info)) { ?>
                 <?php if ($post->post_content) { ?>
@@ -41,4 +43,4 @@ $author_avatar = get_avatar_url($author_id);
             <?php } ?>
         </div>
     </div>
-</a>
+</div>

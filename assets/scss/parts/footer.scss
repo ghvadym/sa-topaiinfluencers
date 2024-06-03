@@ -1,6 +1,10 @@
 [id=footer] {
     margin-bottom: 100px;
 
+    @include response-max($laptop-landscape) {
+        margin-bottom: 32px;
+    }
+
     * {
         color: $color-font;
     }
@@ -53,7 +57,7 @@
     }
 
     @include response-max($laptop-landscape) {
-        &:not(:last-child) {
+        &:not(:nth-child(2)):not(:last-child) {
             margin-bottom: 32px;
         }
 
@@ -83,6 +87,11 @@
 
     @include response-max($laptop-landscape) {
         justify-content: center;
+        width: 100%;
+    }
+
+    @include response-max($mobile) {
+        justify-content: space-between;
     }
 }
 
@@ -92,6 +101,12 @@
     height: 27px;
     position: relative;
     z-index: 2;
+
+    @include pointer;
+
+    a {
+        height: 100%;
+    }
 
     &:before {
         content: '';

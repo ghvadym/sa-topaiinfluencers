@@ -159,13 +159,19 @@ function get_thumbnail_url(int $post_id = 0, string $size = 'large'): string
     return get_the_post_thumbnail_url($post_id, $size);
 }
 
-function img_url(string $image_name = '')
+function img_url(string $image_name = '', bool $show = true)
 {
-    if (!$image_name) {
-        return;
+    if (!$image_name || !file_exists(get_template_directory() . '/dest/img/' . $image_name)) {
+        return '';
     }
 
-    echo get_stylesheet_directory_uri() . '/dest/img/' . $image_name;
+    $url = get_stylesheet_directory_uri() . '/dest/img/' . $image_name;
+
+    if ($show) {
+        echo $url;
+    } else {
+        return $url;
+    }
 }
 
 function get_thumbnail_html(int $post_id = 0, string $label = '', string $size = 'large'): string
