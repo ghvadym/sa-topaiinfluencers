@@ -1,11 +1,33 @@
-body {
-    background: url('../img/bg.png') top / cover no-repeat;
-    position: relative;
-}
-
 .hero__content {
     max-width: 604px;
-    padding-top: 50px;
+    padding: 50px 0;
+    position: relative;
+    z-index: 2;
+}
+
+.hero__bg {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    z-index: 1;
+
+    &:before {
+        content: '';
+        background: rgb(1, 0, 8);
+        background: linear-gradient(90deg, rgba(1,0,8,1) 0%, rgba(1,0,8,0.6811974789915967) 24%, rgba(1,0,8,0) 100%);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 70%;
+        height: 100%;
+        z-index: 3;
+    }
+
+    img {
+        background: rgb(1, 0, 8);
+        background: linear-gradient(90deg, rgba(1,0,8,1) 0%, rgba(1,0,8,0) 15%);
+    }
 }
 
 h1 {
@@ -20,4 +42,28 @@ h1 {
     font-size: 32px;
     font-weight: 400;
     line-height: 44.8px;
+}
+
+.socials_section {
+    position: relative;
+
+    .socials__wrap {
+        backdrop-filter: blur(2px);
+        background: rgba(1, 0, 8, .1);
+        border-radius: 24px;
+    }
+
+    .socials__list {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        padding: 55px 0;
+
+        .socials__list_item {
+            img {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    }
 }
