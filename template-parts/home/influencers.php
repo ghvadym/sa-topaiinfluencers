@@ -14,7 +14,7 @@ if (empty($posts)) {
 
 <section class="influencers_section">
     <div class="container">
-        <h2 class="articles__title">
+        <h2 class="title">
             <?php _e('AI Influencers', DOMAIN); ?>
         </h2>
         <div class="articles influencers__list">
@@ -26,7 +26,7 @@ if (empty($posts)) {
         </div>
         <div class="articles__btn">
             <span class="btn">
-                <?php _e('View All Influencers'); ?>
+                <?php _e('View All Influencers', DOMAIN); ?>
             </span>
         </div>
     </div>

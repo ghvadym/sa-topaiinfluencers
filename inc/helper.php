@@ -180,7 +180,7 @@ function get_thumbnail_html(int $post_id = 0, string $label = '', string $size =
         return '';
     }
 
-    $image_url = get_stylesheet_directory_uri() . '/dest/img/noimage.svg';
+    $image_url = get_stylesheet_directory_uri() . '/dest/img/noimage.png';
 
     if (has_post_thumbnail($post_id)) {
         $image_url = get_the_post_thumbnail_url($post_id, $size);

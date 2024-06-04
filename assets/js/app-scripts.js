@@ -12,42 +12,6 @@
             });
         }
 
-        // let currentMousePos = {x: -1, y: -1};
-        // const homeBg = $('.hero_section');
-        // if (homeBg.length) {
-        //     $(homeBg).mousemove(function (event) {
-        //         console.log(currentMousePos.x);
-        //         console.log(currentMousePos.y);
-        //         currentMousePos.x = event.pageX;
-        //         currentMousePos.y = event.pageY;
-        //         let img = $(this).find('.hero__bg');
-        //
-        //         var getOffset = $(img).offset();
-        //         var getWidth = $(img).width() / 2;
-        //         var getHeight = $(img).height() / 2;
-        //         var centerX = getOffset.left + getWidth;
-        //         var centerY = getOffset.top + getHeight;
-        //
-        //         var rotateAmountX = (currentMousePos.x - centerX) * 0.000001;
-        //         var rotateAmountY = (currentMousePos.y - centerY) * 0.000001;
-        //
-        //         if (rotateAmountX > 0.0002) {
-        //             rotateAmountX = 0.0002;
-        //         }
-        //         if (rotateAmountX < -0.0002) {
-        //             rotateAmountX = -0.0002;
-        //         }
-        //         if (rotateAmountY > 0.0003) {
-        //             rotateAmountY = 0.0003;
-        //         }
-        //         if (rotateAmountY < -0.0003) {
-        //             rotateAmountY = -0.0003;
-        //         }
-        //
-        //         $(img).css('transform', 'matrix3d(1,0,0.00,' + rotateAmountX + ',0.00,1,0.00,' + rotateAmountY + ',0,0,1,0,0,0,0,1)');
-        //     });
-        // }
-
         if (isDesktop) {
             const sectionHero = $('.hero_section');
             const heroBg = $('.hero__bg');
@@ -66,6 +30,19 @@
                     }
                 });
             }
+        }
+
+        const selectHead = $('.select__head');
+        if (selectHead.length) {
+            selectHead.on('click', function (e) {
+                const customSelect = $(this).closest('.custom_select');
+
+                if (!customSelect) {
+                    return false;
+                }
+
+                customSelect.toggleClass('select-show');
+            });
         }
     });
 })(jQuery);

@@ -36,3 +36,6 @@
     </div>
 </header>
 <main class="main">
+    <div class="container">
+        <?php breadcrumbs(); ?>
+    </div>

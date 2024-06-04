@@ -8,7 +8,7 @@ if (empty($faq_list)) {
 
 <section class="faq_section">
     <div class="container">
-        <h2 class="articles__title">
+        <h2 class="title">
             <?php _e('FAQs', DOMAIN); ?>
         </h2>
         <div class="faq__list">
