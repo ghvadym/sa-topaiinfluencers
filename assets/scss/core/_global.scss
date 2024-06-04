@@ -20,23 +20,23 @@ body {
     display: flex;
     flex-direction: column;
 
-    &.home {
-        main {
-            padding-top: 100px;
+    @include response-min($laptop-portrait + 1) {
+        &.home {
+            main {
+                padding-top: 100px;
+            }
+        }
 
-            @include response-max($laptop-portrait + 1) {
-                padding-top: 80px;
+        &:not(.home) {
+            main {
+                padding-top: 40px;
             }
         }
     }
 
-    &:not(.home) {
+    @include response-max($laptop-portrait) {
         main {
-            padding-top: 40px;
-
-            @include response-max($laptop-portrait + 1) {
-                padding-top: 20px;
-            }
+            padding-top: 100px;
         }
     }
 

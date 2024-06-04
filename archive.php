@@ -11,9 +11,9 @@ $posts = get_posts([
         [
             'taxonomy' => 'category',
             'field'    => 'id',
-            'terms'    => $taxonomy->term_id
-        ]
-    ]
+            'terms'    => $taxonomy->term_id,
+        ],
+    ],
 ]);
 ?>
 
@@ -23,54 +23,56 @@ $posts = get_posts([
                 <?php echo $taxonomy->name; ?>
             </h1>
 
-            <div class="archive__filter">
-                <div class="archive__filter_list">
-                    <div class="archive__filter_item">
-                        <?php get_template_part_var('global/select', [
-                            'name'    => 'media',
-                            'title'   => __('Social media', DOMAIN),
-                            'options' => get_terms([
-                                'taxonomy'   => 'social_media',
-                                'hide_empty' => true,
-                                'fields'     => 'id=>name'
-                            ])
-                        ]); ?>
-                    </div>
-                    <div class="archive__filter_item">
-                        <?php get_template_part_var('global/select', [
-                            'name'    => 'media',
-                            'title'   => __('Social media', DOMAIN),
-                            'options' => [
-                                0        => '0 - 1.000',
-                                1000     => '1.000 - 10.000',
-                                10000    => '10.000 - 100.000',
-                                100000   => '100.000 - 1.000.000',
-                                1000000  => '1.000.000 - 10.000.000',
-                                -1       => '10.000.000+'
-                            ],
-                        ]); ?>
-                    </div>
-                    <div class="archive__filter_item">
-                        <?php get_template_part_var('global/select', [
-                            'name'    => 'niches',
-                            'title'   => __('Niches', DOMAIN),
-                            'options' => get_terms([
-                                'taxonomy'   => 'niche',
-                                'hide_empty' => true,
-                                'fields'     => 'id=>name'
-                            ])
-                        ]); ?>
-                    </div>
-                    <div class="archive__filter_item">
-                        <?php get_template_part_var('global/select', [
-                            'name'    => 'languages',
-                            'title'   => __('Languages', DOMAIN),
-                            'options' => get_terms([
-                                'taxonomy'   => 'language',
-                                'hide_empty' => true,
-                                'fields'     => 'id=>name'
-                            ])
-                        ]); ?>
+            <div class="archive__filter_wrap">
+                <div class="archive__filter">
+                    <div class="archive__filter_list">
+                        <div class="archive__filter_item">
+                            <?php get_template_part_var('global/select', [
+                                'name'    => 'media',
+                                'title'   => __('Social media', DOMAIN),
+                                'options' => get_terms([
+                                    'taxonomy'   => 'social_media',
+                                    'hide_empty' => true,
+                                    'fields'     => 'id=>name',
+                                ]),
+                            ]); ?>
+                        </div>
+                        <div class="archive__filter_item">
+                            <?php get_template_part_var('global/select', [
+                                'name'    => 'media',
+                                'title'   => __('Social media', DOMAIN),
+                                'options' => [
+                                    0       => '0 - 1.000',
+                                    1000    => '1.000 - 10.000',
+                                    10000   => '10.000 - 100.000',
+                                    100000  => '100.000 - 1.000.000',
+                                    1000000 => '1.000.000 - 10.000.000',
+                                    -1      => '10.000.000+',
+                                ],
+                            ]); ?>
+                        </div>
+                        <div class="archive__filter_item">
+                            <?php get_template_part_var('global/select', [
+                                'name'    => 'niches',
+                                'title'   => __('Niches', DOMAIN),
+                                'options' => get_terms([
+                                    'taxonomy'   => 'niche',
+                                    'hide_empty' => true,
+                                    'fields'     => 'id=>name',
+                                ]),
+                            ]); ?>
+                        </div>
+                        <div class="archive__filter_item">
+                            <?php get_template_part_var('global/select', [
+                                'name'    => 'languages',
+                                'title'   => __('Languages', DOMAIN),
+                                'options' => get_terms([
+                                    'taxonomy'   => 'language',
+                                    'hide_empty' => true,
+                                    'fields'     => 'id=>name',
+                                ]),
+                            ]); ?>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -79,7 +81,7 @@ $posts = get_posts([
                 <div class="articles">
                     <?php foreach ($posts as $post) {
                         get_template_part_var('cards/card-post', [
-                            'post' => $post
+                            'post' => $post,
                         ]);
                     } ?>
                 </div>
