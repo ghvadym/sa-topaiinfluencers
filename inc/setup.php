@@ -12,6 +12,7 @@ function wp_enqueue_scripts_call()
 
     wp_localize_script('main-scripts', 'taiajax', [
         'ajaxurl' => admin_url('admin-ajax.php'),
+        'nonce'   => wp_create_nonce('archive-nonce')
     ]);
 
     if (is_home() || is_front_page()) {

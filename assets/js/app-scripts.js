@@ -1,6 +1,7 @@
 (function ($) {
     $(document).ready(function () {
         const ajax = taiajax.ajaxurl;
+        const nonce = taiajax.nonce;
         const burgerOpen = $('.header_burger_icon');
         const burgerClose = $('.header_close_icon');
         const header = $('#header');
@@ -42,6 +43,48 @@
                 }
 
                 customSelect.toggleClass('select-show');
+            });
+        }
+
+        const selectItems = $('.select__item input');
+        if (selectItems.length) {
+            selectItems.on('change', function (e) {
+                ajaxPosts($(this).closest('form.archive__filter_wrap'));
+            });
+        }
+
+        function ajaxPosts(form)
+        {
+            if (!form) {
+                return;
+            }
+
+            const formData = new FormData($(form)[0]);
+            const wrap = $('.archive__posts');
+
+            formData.append('action', 'archive_filter');
+            formData.append('nonce', nonce);
+
+            jQuery.ajax({
+                type       : 'POST',
+                url        : ajax,
+                data       : formData,
+                dataType   : 'json',
+                processData: false,
+                contentType: false,
+                beforeSend : function () {
+                    $(wrap).addClass('_spinner');
+                },
+                success    : function (response) {
+                    $(wrap).removeClass('_spinner');
+
+                    if (response) {
+
+                    }
+                },
+                error      : function (err) {
+                    console.log('error', err);
+                }
             });
         }
     });

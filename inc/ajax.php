@@ -1,29 +1,82 @@
 <?php
 
 register_ajax([
-    'get_posts_request'
+    'archive_filter'
 ]);
 
-function get_posts_request()
+function archive_filter()
 {
+    check_ajax_referer('archive-nonce', 'nonce');
+
     $data = sanitize_post($_POST);
-    $args = [];
+    $page = $data['page'] ?? 1;
+    $postsPerPage = get_option('posts_per_page') ?: 16;
+    $terms = [];
+    $args = [
+        'post_status'    => 'publish',
+        'posts_per_page' => $postsPerPage,
+        'paged'          => $page,
+        'offset'         => ($page - 1) * $postsPerPage,
+        'orderby'        => 'comment_count',
+        'order'          => 'DESC',
+        'tax_query'      => [
+            'relation' => 'AND'
+        ]
+    ];
 
-    //dd($data);
+    if (empty($data)) {
+        wp_send_json_error('There is no data');
+        return;
+    }
 
-    $categories = $data['categories'] ?? '';
-
-    if ($categories) {
-        $categories = explode(',', $categories);
-
-        $args['tax_query'] = [
-            [
-                'taxonomy' => 'category',
-                'field'    => 'id',
-                'terms'    => $categories
-            ]
+    $term = $data['term'] ?? '';
+    if ($term) {
+        $args['tax_query'][] = [
+            'taxonomy' => $term,
+            'operator' => 'EXISTS'
         ];
     }
+
+    if (!empty($data['medias'])) {
+        $terms['social_media'] = $data['medias'];
+    }
+
+    if (!empty($data['niches'])) {
+        $terms['niche'] = $data['niches'];
+    }
+
+    if (!empty($data['languages'])) {
+        $terms['language'] = $data['languages'];
+    }
+
+    if (!empty($terms)) {
+        foreach ($terms as $slug => $termsList) {
+            if (empty($termsList)) {
+                continue;
+            }
+
+            $args['tax_query'][] = [
+                'taxonomy' => $slug,
+                'field'    => 'id',
+                'terms'    => $termsList,
+            ];
+        }
+    }
+
+    $subscribers = $data['subscribers'] ?? [];
+
+    if (!empty($subscribers)) {
+        $subscribersRange = explode(',', $subscribers);
+
+        $args['meta_query']['price_query'] = [
+            'key'     => 'subscribers',
+            'value'   => $subscribersRange,
+            'type'    => 'numeric',
+            'compare' => 'BETWEEN'
+        ];
+    }
+
+    dd($args);
 
     $posts = _get_posts($args);
 
