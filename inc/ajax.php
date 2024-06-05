@@ -32,8 +32,9 @@ function archive_filter()
     $term = $data['term'] ?? '';
     if ($term) {
         $args['tax_query'][] = [
-            'taxonomy' => $term,
-            'operator' => 'EXISTS'
+            'taxonomy' => 'category',
+            'field'    => 'id',
+            'terms'    => [$term]
         ];
     }
 
@@ -59,6 +60,7 @@ function archive_filter()
                 'taxonomy' => $slug,
                 'field'    => 'id',
                 'terms'    => $termsList,
+                'operator' => 'AND'
             ];
         }
     }
@@ -76,16 +78,15 @@ function archive_filter()
         ];
     }
 
-    dd($args);
-
-    $posts = _get_posts($args);
+    $posts = new WP_Query($args);
 
     ob_start();
 
-    if (!empty($posts)) {
-        foreach ($posts as $post) {
-            get_template_part_var('template-parts/cards/card/card-post', [
-                'post' => $post
+    if ($posts->have_posts()) {
+        while ($posts->have_posts()) {
+            $posts->the_post();
+            get_template_part_var('cards/card-post', [
+                'post' => $posts->post
             ]);
         }
     } else {
@@ -96,6 +97,9 @@ function archive_filter()
     ob_end_clean();
 
     wp_send_json([
-        'result' => $html
+        'posts'     => $html,
+        'args'      => $args,
+        'max_pages' => $posts->max_num_pages,
+        'append'    => $page > 1,
     ]);
 }

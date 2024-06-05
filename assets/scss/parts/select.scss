@@ -1,33 +1,3 @@
-.archive__filter_wrap {
-    margin: 0 -32px 24px;
-    padding-bottom: 480px;
-    overflow-x: auto;
-}
-
-.archive__filter {
-    display: flex;
-    padding: 0 32px;
-}
-
-.archive__posts {
-    margin-top: -480px;
-}
-
-.archive__filter_list {
-    display: flex;
-
-    &::-webkit-scrollbar {
-        width: 0;
-        height: 0;
-    }
-}
-
-.archive__filter_item {
-    &:not(:last-child) {
-        margin-right: 16px;
-    }
-}
-
 .custom_select {
     position: relative;
     display: inline-block;
@@ -54,7 +24,8 @@
     justify-content: space-between;
 
     & > svg {
-        transition: 0.3s;
+        transition: $transition;
+        transform-origin: center;
         margin-left: 10px;
     }
 
@@ -102,6 +73,12 @@
         .select__list {
             display: block;
             animation: fadeId $transition;
+        }
+
+        .select__selected {
+            & > svg {
+                transform: rotate(180deg);
+            }
         }
     }
 }

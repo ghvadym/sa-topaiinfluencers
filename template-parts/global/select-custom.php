@@ -1,5 +1,5 @@
 <?php
-if (empty($options)) {
+if (empty($options) || empty($name)) {
     return;
 }
 
@@ -10,7 +10,7 @@ $typeRadio = !empty($type) && $type === 'radio';
     <div class="select__head">
         <div class="select__selected">
             <div class="select__selected_title">
-                <?php echo $title; ?>
+                <?php echo $title ?? __('Select', DOMAIN); ?>
             </div>
             <?php get_svg('arrow-down'); ?>
         </div>
@@ -18,14 +18,14 @@ $typeRadio = !empty($type) && $type === 'radio';
     <div class="select__list">
         <?php foreach ($options as $id => $title) { ?>
             <?php if ($typeRadio) { ?>
-                <div class="select__item checkbox_item" data-order="10">
+                <div class="select__item checkbox_item">
                     <input type="radio" name="<?php echo $name; ?>" value="<?php echo $id; ?>">
                     <label for="<?php echo $name; ?>">
                         <?php echo esc_attr($title); ?>
                     </label>
                 </div>
             <?php } else { ?>
-                <div class="select__item checkbox_item" data-order="10">
+                <div class="select__item checkbox_item">
                     <input type="checkbox" name="<?php echo $name; ?>[]" value="<?php echo $id; ?>">
                     <label for="<?php echo $name; ?>">
                         <?php echo esc_attr($title); ?>

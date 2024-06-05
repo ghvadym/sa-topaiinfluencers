@@ -1,0 +1,75 @@
+//Core
+@import "core/variables";
+@import "core/mixins";
+
+.archive__filter_wrap {
+    margin: 0 -32px 24px;
+    padding-bottom: 480px;
+    overflow-x: auto;
+
+    &.form-active {
+        .archive__filter_reset {
+            display: flex;
+        }
+    }
+}
+
+.archive__filter {
+    display: flex;
+    padding: 0 32px;
+}
+
+.archive__posts {
+    margin-top: -480px;
+}
+
+.archive__filter_list {
+    display: flex;
+
+    &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+}
+
+.archive__filter_item {
+    &:not(:last-child) {
+        margin-right: 16px;
+    }
+}
+
+.archive__filter_reset {
+    display: none;
+    background: rgba(33, 12, 66, .9);
+    box-shadow: 0 2px 4px #00000026;
+    border-radius: 50%;
+    width: 46px;
+    height: 46px;
+    @include pointer;
+
+    img {
+        margin: auto;
+        width: 20px;
+        height: 20px;
+    }
+}
+
+[id=articles_load] {
+    position: relative;
+
+    &.btn-loading {
+        pointer-events: none;
+        opacity: 0.6;
+
+        &:after {
+            content: '';
+            position: absolute;
+            left: calc(100% + 10px);
+            top: 50%;
+            transform: translateY(-50%);
+            width: 25px;
+            height: 25px;
+            background: url('../img/preloader.gif') center / contain no-repeat;
+        }
+    }
+}

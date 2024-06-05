@@ -49,21 +49,104 @@
         const selectItems = $('.select__item input');
         if (selectItems.length) {
             selectItems.on('change', function (e) {
-                ajaxPosts($(this).closest('form.archive__filter_wrap'));
+                const form = $(this).closest('form.archive__filter_wrap');
+                if (form.length) {
+                    ajaxPosts($(form));
+                    setFormStatus();
+                }
             });
         }
 
-        function ajaxPosts(form)
+        const articlesLoadBtn = $('#articles_load');
+        if (articlesLoadBtn.length) {
+            articlesLoadBtn.on('click', function (e) {
+                const form = $('form.archive__filter_wrap');
+                if (form.length) {
+                    let pageNumber = $(this).attr('data-page');
+                    pageNumber = parseInt(pageNumber) + 1;
+                    ajaxPosts($(form), pageNumber);
+                }
+            });
+        }
+
+        const resetFilterBtn = $('.archive__filter_reset');
+        if (resetFilterBtn.length) {
+            resetFilterBtn.on('click', function (e) {
+                const form = $(this).closest('form.archive__filter_wrap');
+                if (form.length) {
+                    resetFilter($(form));
+                    ajaxPosts($(form));
+                }
+            });
+        }
+
+        function resetFilter(form)
+        {
+            if (!form) {
+                return;
+            }
+
+            $(form).trigger('reset');
+
+            const selectList = $('.archive__filter_item .custom_select');
+            const formWrap = $('.archive__filter_wrap');
+
+            if (selectList.length) {
+                $(selectList).removeClass('select-show');
+            }
+
+            if (formWrap.length) {
+                $(formWrap).removeClass('form-active');
+            }
+        }
+
+        function setFormStatus()
+        {
+            const formWrap = $('.archive__filter_wrap');
+
+            if (!formWrap.length) {
+                return;
+            }
+
+            const filterInputs = $('.archive__filter_list input');
+
+            if (!filterInputs.length) {
+                return;
+            }
+
+            let formActive = false;
+
+            jQuery.each(filterInputs, function (key, val) {
+                if ($(val).is(':checked')) {
+                    formActive = true;
+                    return false;
+                }
+            });
+
+            if (formActive) {
+                $(formWrap).addClass('form-active');
+            } else {
+                $(formWrap).removeClass('form-active');
+            }
+        }
+
+        function ajaxPosts(form, pageNumber)
         {
             if (!form) {
                 return;
             }
 
             const formData = new FormData($(form)[0]);
-            const wrap = $('.archive__posts');
+            const wrap = $('.archive__wrap');
+            const posts = $('.archive__posts .articles');
+            const articlesLoadBtn = $('#articles_load');
 
             formData.append('action', 'archive_filter');
             formData.append('nonce', nonce);
+
+            if (pageNumber) {
+                formData.append('page', pageNumber);
+            }
 
             jQuery.ajax({
                 type       : 'POST',
@@ -73,13 +156,35 @@
                 processData: false,
                 contentType: false,
                 beforeSend : function () {
-                    $(wrap).addClass('_spinner');
+                    if (pageNumber) {
+                        $(articlesLoadBtn).addClass('btn-loading');
+                    } else {
+                        $(wrap).addClass('_spinner');
+                    }
                 },
                 success    : function (response) {
-                    $(wrap).removeClass('_spinner');
+                    if (pageNumber) {
+                        $(articlesLoadBtn).removeClass('btn-loading');
+                    } else {
+                        $(wrap).removeClass('_spinner');
+                    }
 
-                    if (response) {
+                    if (response.posts) {
+                        if (response.append) {
+                            $(posts).append(response.posts);
+                        } else {
+                            $(posts).html(response.posts);
+                        }
 
+                        if (response.max_pages) {
+                            if ((pageNumber && response.max_pages === pageNumber) || response.max_pages < 2) {
+                                $(articlesLoadBtn).hide();
+                            } else {
+                                $(articlesLoadBtn).show();
+                            }
+                        }
+
+                        $(articlesLoadBtn).attr('data-page', pageNumber);
                     }
                 },
                 error      : function (err) {

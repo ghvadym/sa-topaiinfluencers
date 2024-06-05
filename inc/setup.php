@@ -18,6 +18,10 @@ function wp_enqueue_scripts_call()
     if (is_home() || is_front_page()) {
         wp_enqueue_style('home-styles', TAI_THEME_URL . '/dest/css/home.css');
     }
+
+    if (is_archive() || is_tax() || is_tag()) {
+        wp_enqueue_style('archive-styles', TAI_THEME_URL . '/dest/css/archive.css');
+    }
 }
 
 add_action('after_setup_theme', 'after_setup_theme_call');
