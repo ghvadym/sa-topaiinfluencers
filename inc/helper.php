@@ -63,8 +63,8 @@ function _get_posts(array $args = []): array
     $args = array_merge([
         'post_type'   => 'post',
         'post_status' => 'publish',
-        'numberposts' => -1,
-        'orderby'     => 'date',
+        'numberposts' => POSTS_PER_PAGE,
+        'orderby'     => 'DATE',
         'order'       => 'DESC'
     ], $args);
 

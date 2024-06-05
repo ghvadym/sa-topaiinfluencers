@@ -21,6 +21,14 @@ body {
     display: flex;
     flex-direction: column;
 
+    &:not(.home) {
+        section {
+            &:first-of-type {
+                padding-top: 0;
+            }
+        }
+    }
+
     @include response-min($header-responsive + 1) {
         &.home {
             main {
@@ -233,18 +241,6 @@ section {
     z-index: 6;
     backdrop-filter: blur(2px);
     min-height: 500px;
-}
-
-._spinner:after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background: url('../img/preloader.gif') center / contain no-repeat;
-    width: 70px;
-    height: 70px;
-    z-index: 7;
 }
 
 .btn {

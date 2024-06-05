@@ -1,8 +1,6 @@
 <?php
-$posts = get_posts([
+$posts = _get_posts([
     'numberposts'   => wp_is_mobile() ? 4 : 8,
-    'orderby'       => 'comment_count',
-    'order'         => 'DESC',
     'category_name' => 'best-ai-models'
 ]);
 

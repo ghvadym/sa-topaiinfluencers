@@ -2,10 +2,6 @@
 @import "core/variables";
 @import "core/mixins";
 
-.archive {
-    padding-top: 0;
-}
-
 .archive__filter_wrap {
     margin: 0 -32px 24px;
     padding-bottom: 480px;
@@ -62,16 +58,5 @@
     &.btn-loading {
         pointer-events: none;
         opacity: 0.6;
-
-        &:after {
-            content: '';
-            position: absolute;
-            left: calc(100% + 10px);
-            top: 50%;
-            transform: translateY(-50%);
-            width: 25px;
-            height: 25px;
-            background: url('../img/preloader.gif') center / contain no-repeat;
-        }
     }
 }

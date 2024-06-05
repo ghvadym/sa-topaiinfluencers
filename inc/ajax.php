@@ -10,14 +10,14 @@ function archive_filter()
 
     $data = sanitize_post($_POST);
     $page = $data['page'] ?? 1;
-    $postsPerPage = get_option('posts_per_page') ?: 16;
     $terms = [];
     $args = [
+        'post_type'      => 'post',
         'post_status'    => 'publish',
-        'posts_per_page' => $postsPerPage,
+        'posts_per_page' => POSTS_PER_PAGE,
         'paged'          => $page,
-        'offset'         => ($page - 1) * $postsPerPage,
-        'orderby'        => 'comment_count',
+        'offset'         => ($page - 1) * POSTS_PER_PAGE,
+        'orderby'        => 'DATE',
         'order'          => 'DESC',
         'tax_query'      => [
             'relation' => 'AND'
@@ -86,11 +86,12 @@ function archive_filter()
         while ($posts->have_posts()) {
             $posts->the_post();
             get_template_part_var('cards/card-post', [
-                'post' => $posts->post
+                'post'           => $posts->post,
+                'full_card_info' => !empty($data['full_card_info'])
             ]);
         }
     } else {
-        echo '<p>' . __('Posts not found', DOMAIN) . '</p>';
+        echo '<h3>' . __('Posts not found', DOMAIN) . '</h3>';
     }
 
     $html = ob_get_contents();
@@ -100,6 +101,6 @@ function archive_filter()
         'posts'     => $html,
         'args'      => $args,
         'max_pages' => $posts->max_num_pages,
-        'append'    => $page > 1,
+        'append'    => $page > 1
     ]);
 }

@@ -61,10 +61,13 @@
         if (articlesLoadBtn.length) {
             articlesLoadBtn.on('click', function (e) {
                 const form = $('form.archive__filter_wrap');
+                let pageNumber = $(this).attr('data-page');
+                pageNumber = parseInt(pageNumber) + 1;
+
                 if (form.length) {
-                    let pageNumber = $(this).attr('data-page');
-                    pageNumber = parseInt(pageNumber) + 1;
                     ajaxPosts($(form), pageNumber);
+                } else {
+                    ajaxPosts(false, pageNumber);
                 }
             });
         }
@@ -132,20 +135,30 @@
 
         function ajaxPosts(form, pageNumber)
         {
-            if (!form) {
-                return;
+            let formData;
+
+            if (form) {
+                formData = new FormData($(form)[0]);
+            } else {
+                formData = new FormData();
             }
 
-            const formData = new FormData($(form)[0]);
             const wrap = $('.archive__wrap');
             const posts = $('.archive__posts .articles');
-            const articlesLoadBtn = $('#articles_load');
+            const loadMoreBtn = $('#articles_load');
 
             formData.append('action', 'archive_filter');
             formData.append('nonce', nonce);
 
             if (pageNumber) {
                 formData.append('page', pageNumber);
+            }
+
+            if (loadMoreBtn.length) {
+                const fullCardInfo = $(loadMoreBtn).attr('data-full-card');
+                if (fullCardInfo) {
+                    formData.append('full_card_info', 1);
+                }
             }
 
             jQuery.ajax({
@@ -157,14 +170,14 @@
                 contentType: false,
                 beforeSend : function () {
                     if (pageNumber) {
-                        $(articlesLoadBtn).addClass('btn-loading');
+                        $(loadMoreBtn).addClass('btn-loading');
                     } else {
                         $(wrap).addClass('_spinner');
                     }
                 },
                 success    : function (response) {
                     if (pageNumber) {
-                        $(articlesLoadBtn).removeClass('btn-loading');
+                        $(loadMoreBtn).removeClass('btn-loading');
                     } else {
                         $(wrap).removeClass('_spinner');
                     }
@@ -178,13 +191,13 @@
 
                         if (response.max_pages) {
                             if ((pageNumber && response.max_pages === pageNumber) || response.max_pages < 2) {
-                                $(articlesLoadBtn).hide();
+                                $(loadMoreBtn).hide();
                             } else {
-                                $(articlesLoadBtn).show();
+                                $(loadMoreBtn).show();
                             }
                         }
 
-                        $(articlesLoadBtn).attr('data-page', pageNumber);
+                        $(loadMoreBtn).attr('data-page', pageNumber);
                     }
                 },
                 error      : function (err) {
