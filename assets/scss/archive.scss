@@ -2,10 +2,19 @@
 @import "core/variables";
 @import "core/mixins";
 
+.archive {
+    padding-top: 0;
+}
+
 .archive__filter_wrap {
     margin: 0 -32px 24px;
     padding-bottom: 480px;
     overflow-x: auto;
+
+    &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
 
     &.form-active {
         .archive__filter_reset {
@@ -19,23 +28,16 @@
     padding: 0 32px;
 }
 
-.archive__posts {
+.archive__posts_wrap {
     margin-top: -480px;
 }
 
 .archive__filter_list {
     display: flex;
-
-    &::-webkit-scrollbar {
-        width: 0;
-        height: 0;
-    }
 }
 
 .archive__filter_item {
-    &:not(:last-child) {
-        margin-right: 16px;
-    }
+    margin-right: 16px;
 }
 
 .archive__filter_reset {

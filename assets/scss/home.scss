@@ -131,7 +131,7 @@
     }
 }
 
-@include response-min($header-responsive) {
+@include response-min($header-responsive + 1) {
     body.home {
         main {
             padding-top: 0;

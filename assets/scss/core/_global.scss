@@ -21,7 +21,7 @@ body {
     display: flex;
     flex-direction: column;
 
-    @include response-min($laptop-portrait + 1) {
+    @include response-min($header-responsive + 1) {
         &.home {
             main {
                 padding-top: 100px;
@@ -35,7 +35,7 @@ body {
         }
     }
 
-    @include response-max($laptop-portrait) {
+    @include response-max($header-responsive) {
         main {
             padding-top: 100px;
         }
