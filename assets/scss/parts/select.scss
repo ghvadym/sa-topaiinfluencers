@@ -10,7 +10,7 @@
     font-weight: 400;
     line-height: 19.8px;
     background: rgba(33, 12, 66, 90%);
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: $box-shadow;
     border-radius: 24px;
     padding: 12px 24px;
     position: relative;
@@ -45,7 +45,7 @@
 .select__list {
     display: none;
     background: rgb(47, 10, 106, 90%);
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: $box-shadow;
     border-radius: 22px;
     width: 100%;
     position: absolute;

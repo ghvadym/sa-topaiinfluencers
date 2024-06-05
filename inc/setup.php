@@ -22,6 +22,10 @@ function wp_enqueue_scripts_call()
     if (is_archive() || is_tax() || is_tag()) {
         wp_enqueue_style('archive-styles', TAI_THEME_URL . '/dest/css/archive.css');
     }
+
+    if (is_single()) {
+        wp_enqueue_style('single-styles', TAI_THEME_URL . '/dest/css/single.css');
+    }
 }
 
 add_action('after_setup_theme', 'after_setup_theme_call');
