@@ -136,6 +136,10 @@
 .articles__btn {
     text-align: center;
     margin: 32px 0 0;
+
+    @include response-max($mobile) {
+        margin-top: 22px;
+    }
 }
 
 .title {

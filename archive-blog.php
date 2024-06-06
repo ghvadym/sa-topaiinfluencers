@@ -32,9 +32,9 @@ $allPostsCount = $postsInfo->publish ?? 0;
                     </div>
                     <?php if ($allPostsCount > POSTS_PER_PAGE) { ?>
                         <div class="articles__btn">
-                        <span id="articles_load" class="btn" data-page="1" data-type="blog">
-                            <?php _e('Lazy load', DOMAIN); ?>
-                        </span>
+                            <span id="articles_load" class="btn" data-page="1" data-type="blog">
+                                <?php _e('Lazy load', DOMAIN); ?>
+                            </span>
                         </div>
                     <?php } ?>
                 </div>

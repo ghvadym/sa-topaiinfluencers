@@ -7,6 +7,12 @@
         const header = $('#header');
         const isDesktop = $(window).width() > 1024;
 
+        if ($(window).width() < 1320) {
+            const morePostsSlider = new Swiper('.articles_slider', {
+                slidesPerView: 'auto'
+            });
+        }
+
         if (header.length && burgerOpen.length && burgerClose.length) {
             $(document).on('click', '.header_burger_icon, .header_close_icon', function () {
                 $(header).toggleClass('active-menu');

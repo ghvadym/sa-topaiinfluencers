@@ -17,9 +17,9 @@ $socials = [
     <?php echo get_thumbnail_html($post->ID, $post->post_title); ?>
 </div>
 <div class="card__body">
-    <div class="card__title">
+    <h1 class="card__title">
         <?php echo esc_html($post->post_title); ?>
-    </div>
+    </h1>
     <div class="card__socials">
         <?php foreach ($socials as $svg => $value) { ?>
             <div class="card__social">

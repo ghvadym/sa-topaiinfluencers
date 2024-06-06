@@ -107,48 +107,18 @@
     border-radius: 24px;
     box-shadow: $box-shadow;
 
+    &:not(:last-child) {
+        margin-bottom: 40px;
+    }
+
+    @include text-block;
+
     @include response-min($laptop-landscape) {
         display: grid;
     }
 
     @include response-max($mobile) {
         padding: 24px;
-    }
-
-    h2 {
-        margin-bottom: 16px;
-
-        @include response-max($mobile) {
-            font-size: 22px;
-            line-height: 24.2px;
-        }
-    }
-
-    h3 {
-        margin: 32px 0 16px;
-    }
-
-    p {
-        font-size: 18px;
-        font-weight: 300;
-        line-height: 25.2px;
-
-        &:not(:last-child) {
-            margin-bottom: 24px;
-        }
-
-        @include response-max($mobile) {
-            font-size: 16px;
-            line-height: 22.4px;
-        }
-
-        a {
-            text-decoration: underline;
-        }
-    }
-
-    &:not(:last-child) {
-        margin-bottom: 40px;
     }
 
     &.card {
@@ -166,6 +136,71 @@
 
         @include response-max($laptop-landscape - 1) {
             margin: 0 0 80px;
+        }
+    }
+}
+
+.single_blog {
+    .single__body {
+        @include text-block;
+
+        p, strong, li, a, b, span {
+            @include response-min($laptop-portrait) {
+                font-size: 22px;
+                line-height: 31px;
+            }
+        }
+
+        h2 {
+            font-family: 'Hind', sans-serif;
+            margin: 40px 0 24px;
+
+            &, strong {
+                font-size: 28px;
+                line-height: 40px;
+                font-weight: 500;
+
+                @include response-max($mobile) {
+                    font-size: 24px;
+                    line-height: 36px;
+                }
+            }
+
+            @include response-max($mobile) {
+                margin: 24px 0 16px;
+            }
+        }
+    }
+}
+
+.articles_slider {
+    margin: 0 -16px;
+
+    @include response-max(1319px) {
+        margin: 0 -6px;
+    }
+
+    .article {
+        width: 100%;
+
+        @include response-min(1320px) {
+            margin: 0 16px;
+            max-width: calc(100% / 4 - 32px);
+        }
+
+        @include response-max(1319px) {
+            margin: 0 6px;
+            max-width: 296px;
+        }
+    }
+}
+
+@include response-max(1319px) {
+    .articles_slider_wrap {
+        margin: 0 -32px;
+
+        .articles_slider {
+            padding: 0 32px;
         }
     }
 }
