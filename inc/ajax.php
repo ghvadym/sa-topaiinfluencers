@@ -10,72 +10,77 @@ function archive_filter()
 
     $data = sanitize_post($_POST);
     $page = $data['page'] ?? 1;
+    $postType = $data['post_type'] ?? 'post';
     $terms = [];
-    $args = [
-        'post_type'      => 'post',
-        'post_status'    => 'publish',
-        'posts_per_page' => POSTS_PER_PAGE,
-        'paged'          => $page,
-        'offset'         => ($page - 1) * POSTS_PER_PAGE,
-        'orderby'        => 'DATE',
-        'order'          => 'DESC',
-        'tax_query'      => [
-            'relation' => 'AND'
-        ]
-    ];
 
     if (empty($data)) {
         wp_send_json_error('There is no data');
         return;
     }
 
-    $term = $data['term'] ?? '';
-    if ($term) {
-        $args['tax_query'][] = [
-            'taxonomy' => 'category',
-            'field'    => 'id',
-            'terms'    => [$term]
+    $args = [
+        'post_type'      => $postType,
+        'post_status'    => 'publish',
+        'posts_per_page' => POSTS_PER_PAGE,
+        'paged'          => $page,
+        'offset'         => ($page - 1) * POSTS_PER_PAGE,
+        'orderby'        => 'DATE',
+        'order'          => 'DESC',
+    ];
+
+    if ($postType === 'post') {
+        $args['tax_query'] = [
+            'relation' => 'AND'
         ];
-    }
 
-    if (!empty($data['medias'])) {
-        $terms['social_media'] = $data['medias'];
-    }
-
-    if (!empty($data['niches'])) {
-        $terms['niche'] = $data['niches'];
-    }
-
-    if (!empty($data['languages'])) {
-        $terms['language'] = $data['languages'];
-    }
-
-    if (!empty($terms)) {
-        foreach ($terms as $slug => $termsList) {
-            if (empty($termsList)) {
-                continue;
-            }
-
+        $term = $data['term'] ?? '';
+        if ($term) {
             $args['tax_query'][] = [
-                'taxonomy' => $slug,
+                'taxonomy' => 'category',
                 'field'    => 'id',
-                'terms'    => $termsList,
-                'operator' => 'AND'
+                'terms'    => [$term]
             ];
         }
-    }
 
-    $subscribers = $data['subscribers'] ?? [];
+        if (!empty($data['medias'])) {
+            $terms['social_media'] = $data['medias'];
+        }
 
-    if (!empty($subscribers)) {
-        $subscribersRange = explode(',', $subscribers);
+        if (!empty($data['niches'])) {
+            $terms['niche'] = $data['niches'];
+        }
 
-        $args['meta_query']['price_query'] = [
-            'key'     => 'subscribers',
-            'value'   => $subscribersRange,
-            'type'    => 'numeric',
-            'compare' => 'BETWEEN'
-        ];
+        if (!empty($data['languages'])) {
+            $terms['language'] = $data['languages'];
+        }
+
+        if (!empty($terms)) {
+            foreach ($terms as $slug => $termsList) {
+                if (empty($termsList)) {
+                    continue;
+                }
+
+                $args['tax_query'][] = [
+                    'taxonomy' => $slug,
+                    'field'    => 'id',
+                    'terms'    => $termsList,
+                    'operator' => 'AND'
+                ];
+            }
+        }
+
+        $subscribers = $data['subscribers'] ?? [];
+
+        if (!empty($subscribers)) {
+            $subscribersRange = explode(',', $subscribers);
+
+            $args['meta_query']['price_query'] = [
+                'key'     => 'subscribers',
+                'value'   => $subscribersRange,
+                'type'    => 'numeric',
+                'compare' => 'BETWEEN'
+            ];
+        }
     }
 
     $posts = new WP_Query($args);
@@ -87,7 +92,7 @@ function archive_filter()
             $posts->the_post();
             get_template_part_var('cards/card-post', [
                 'post'           => $posts->post,
-                'full_card_info' => !empty($data['full_card_info'])
+                'full_card_info' => $postType !== 'post'
             ]);
         }
     } else {

@@ -9,12 +9,15 @@ function breadcrumbs()
 
 function custom_get_page_title(): string
 {
+    $blogName = get_bloginfo('name');
     if (is_archive() || is_tax()) {
-        $taxonomy = get_queried_object();
-        $title = $taxonomy->name;
-    } else {
-        $title = get_the_title();
+        $postData = get_queried_object();
+        $title = ucfirst($postData->name) . ' - ' . $blogName;
+    } else if (is_home() || is_front_page()) {
+        $title = get_bloginfo('name');
+    }else {
+        $title = get_the_title() . ' - ' . $blogName;;
     }
 
-    return $title . ' - ' . get_bloginfo('name');
+    return $title;
 }

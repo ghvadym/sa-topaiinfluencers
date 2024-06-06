@@ -14,7 +14,9 @@ $author_avatar = get_avatar_url($author_id);
         <a href="<?php echo get_the_permalink($post); ?>"
            class="article__img<?php echo empty($full_card_info) ? ' cropped-img' : ''; ?>">
             <?php echo $thumbnail; ?>
-            <?php get_template_part_var('cards/card-socials'); ?>
+            <?php if ($post->post_type === 'post') {
+                get_template_part_var('cards/card-socials');
+            } ?>
         </a>
         <div class="article__content">
             <h3 class="article__title">

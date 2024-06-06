@@ -155,9 +155,9 @@
             }
 
             if (loadMoreBtn.length) {
-                const fullCardInfo = $(loadMoreBtn).attr('data-full-card');
-                if (fullCardInfo) {
-                    formData.append('full_card_info', 1);
+                const postType = $(loadMoreBtn).attr('data-type');
+                if (postType) {
+                    formData.append('post_type', postType);
                 }
             }
 

@@ -5,6 +5,9 @@ $taxonomy = get_queried_object();
 $posts = _get_posts([
     'category_name' => $taxonomy->slug
 ]);
+
+$postsInfo = wp_count_posts();
+$allPostsCount = $postsInfo->publish ?? 0;
 ?>
 
 <section class="archive">
@@ -87,7 +90,7 @@ $posts = _get_posts([
                             } ?>
                         </div>
                     </div>
-                    <?php if (ALL_POSTS_COUNT > POSTS_PER_PAGE) { ?>
+                    <?php if ($allPostsCount > POSTS_PER_PAGE) { ?>
                         <div class="articles__btn">
                             <span id="articles_load" class="btn" data-page="1">
                                 <?php _e('Lazy load', DOMAIN); ?>
