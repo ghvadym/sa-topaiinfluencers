@@ -13,10 +13,14 @@
         height: 100%;
         object-fit: cover;
     }
+
+    @include response-max($mobile) {
+        display: none;
+    }
 }
 
 .card__img {
-    aspect-ratio: 9 / 10;
+    aspect-ratio: 1/1;
     overflow: hidden;
     border-radius: 12px;
     margin-bottom: 24px;
@@ -32,6 +36,10 @@
     & > * {
         &:not(:last-child) {
             margin-bottom: 24px;
+
+            @include response-max($mobile) {
+                margin-bottom: 16px;
+            }
         }
     }
 }
@@ -47,6 +55,10 @@
     grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 6px;
     grid-row-gap: 8px;
+
+    @include response-max($mobile) {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 .card__social {
@@ -62,6 +74,10 @@
 
     &.full {
         grid-column: span 3;
+
+        @include response-max($mobile) {
+            grid-column: span 2;
+        }
     }
 
     svg {
@@ -81,6 +97,8 @@
 
 .card__social_btn {
     width: 100%;
+    height: 46px;
+    font-size: 20px;
 }
 
 .single__content {
@@ -88,7 +106,14 @@
     padding: 32px 40px;
     border-radius: 24px;
     box-shadow: $box-shadow;
-    display: grid;
+
+    @include response-min($laptop-landscape) {
+        display: grid;
+    }
+
+    @include response-max($mobile) {
+        padding: 24px;
+    }
 
     h2 {
         margin-bottom: 16px;
@@ -105,11 +130,11 @@
 
     p {
         font-size: 18px;
-        font-weight: 400;
+        font-weight: 300;
         line-height: 25.2px;
 
         &:not(:last-child) {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         @include response-max($mobile) {
@@ -128,12 +153,19 @@
 
     &.card {
         margin: 0 32px 32px 0;
-        float: left;
-        max-width: 392px;
         width: 100%;
         padding: 24px;
         border-radius: 16px;
         background: rgb(71, 0, 186);
         background: linear-gradient(30deg, rgb(28, 8, 63) 9%, rgb(25, 10, 42) 64%, rgb(70, 7, 73) 84%);
+
+        @include response-min($laptop-landscape) {
+            max-width: 392px;
+            float: left;
+        }
+
+        @include response-max($laptop-landscape - 1) {
+            margin: 0 0 80px;
+        }
     }
 }

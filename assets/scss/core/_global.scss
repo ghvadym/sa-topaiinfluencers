@@ -44,8 +44,16 @@ body {
     }
 
     @include response-max($header-responsive) {
-        main {
-            padding-top: 100px;
+       &.home {
+            main {
+                padding-top: 80px;
+            }
+        }
+
+        &:not(.home) {
+            main {
+                padding-top: 100px;
+            }
         }
     }
 
@@ -294,27 +302,50 @@ section {
     & > span {
         display: flex;
         align-items: center;
-        gap: 10px;
-    }
+        flex-wrap: wrap;
+        column-gap: 21px;
+        row-gap: 10px;
 
-    span {
-        font-size: 24px;
-        line-height: 33px;
+        span {
+            font-size: 24px;
+            line-height: 1;
 
-        a {
-            color: rgba(255, 255, 255, 0.3);
+            a {
+                color: rgba(255, 255, 255, 0.3);
+            }
+
+            @include response-max($mobile) {
+                font-size: 20px;
+
+                &:first-child {
+                    position: relative;
+
+                    &:before {
+                        content: '...';
+                        color: rgba(255, 255, 255, 0.3);
+                    }
+
+                    a {
+                        display: none;
+                    }
+                }
+            }
         }
-    }
 
-    i {
-        font-style: normal;
-        display: inline-block;
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-top: 6px solid transparent;
-        border-bottom: 6px solid transparent;
-        border-left: 6px solid rgba(255, 255, 255, 0.3);
-        border-right: 0;
+        i {
+            font-style: normal;
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 6px solid rgba(255, 255, 255, 0.3);
+            border-right: 0;
+        }
+
+        @include response-max($mobile) {
+            column-gap: 21px;
+        }
     }
 }

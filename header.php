@@ -36,6 +36,8 @@
     </div>
 </header>
 <main class="main">
-    <div class="container">
-        <?php breadcrumbs(); ?>
-    </div>
+    <?php if (!is_home() && !is_front_page()) { ?>
+        <div class="container">
+            <?php breadcrumbs(); ?>
+        </div>
+    <?php } ?>

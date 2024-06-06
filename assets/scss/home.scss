@@ -119,15 +119,40 @@
 .socials__list_item {
     width: 45px;
     height: 45px;
-
-    @include response-max($mobile) {
-        width: 24px;
-        height: 24px;
-    }
+    position: relative;
+    @include pointer;
 
     a, img {
         width: 100%;
         height: 100%;
+    }
+
+    &:before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        transition: .3s ease-in-out;
+        width: 1px;
+        height: 1px;
+        border-radius: 50%;
+        box-shadow: 0 0 15px 20px #ba00b25c;
+        opacity: 0;
+    }
+
+    @include response-min($desktop) {
+        &:hover {
+            &:before {
+                opacity: 1;
+            }
+        }
+    }
+
+    @include response-max($mobile) {
+        width: 24px;
+        height: 24px;
     }
 }
 
