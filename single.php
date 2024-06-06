@@ -10,7 +10,7 @@ $content = $post->post_content ? explode('<!-- wp:heading -->', $post->post_cont
         <div class="thumbnail">
             <?php echo get_thumbnail_html($post->ID); ?>
         </div>
-        <div class="single__body">
+        <div class="text_block">
             <div class="single__content card">
                 <?php get_template_part_var('cards/card-single', [
                     'post' => $post

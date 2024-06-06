@@ -350,3 +350,70 @@ section {
         }
     }
 }
+
+.articles_slider {
+    margin: 0 -16px;
+
+    @include response-max(1319px) {
+        margin: 0 -6px;
+    }
+
+    .article {
+        width: 100%;
+
+        @include response-min(1320px) {
+            margin: 0 16px;
+            max-width: calc(100% / 4 - 32px);
+        }
+
+        @include response-max(1319px) {
+            margin: 0 6px;
+            max-width: 296px;
+        }
+    }
+}
+
+@include response-max(1319px) {
+    .articles_slider_wrap {
+        margin: 0 -32px;
+
+        .articles_slider {
+            padding: 0 32px;
+        }
+    }
+}
+
+.text_block {
+    @include text-block;
+}
+
+.content_block {
+    &:not(:last-child) {
+        margin-bottom: 40px;
+    }
+
+    @include response-min($laptop-landscape) {
+        display: flex;
+        gap: 32px;
+
+        &:nth-child(2n + 1) {
+            flex-direction: row-reverse;
+        }
+    }
+}
+
+.content_block__img {
+    flex-shrink: 0;
+
+    @include response-max($laptop-landscape - 1) {
+        img {
+            width: 100%;
+        }
+    }
+}
+
+@include response-max($laptop-landscape) {
+    .content_block__text {
+        margin-bottom: 24px;
+    }
+}

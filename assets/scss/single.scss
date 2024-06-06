@@ -141,9 +141,7 @@
 }
 
 .single_blog {
-    .single__body {
-        @include text-block;
-
+    .text_block {
         p, strong, li, a, b, span {
             @include response-min($laptop-portrait) {
                 font-size: 22px;
@@ -169,38 +167,6 @@
             @include response-max($mobile) {
                 margin: 24px 0 16px;
             }
-        }
-    }
-}
-
-.articles_slider {
-    margin: 0 -16px;
-
-    @include response-max(1319px) {
-        margin: 0 -6px;
-    }
-
-    .article {
-        width: 100%;
-
-        @include response-min(1320px) {
-            margin: 0 16px;
-            max-width: calc(100% / 4 - 32px);
-        }
-
-        @include response-max(1319px) {
-            margin: 0 6px;
-            max-width: 296px;
-        }
-    }
-}
-
-@include response-max(1319px) {
-    .articles_slider_wrap {
-        margin: 0 -32px;
-
-        .articles_slider {
-            padding: 0 32px;
         }
     }
 }

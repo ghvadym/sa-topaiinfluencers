@@ -8,11 +8,11 @@ $post = get_post();
             <div class="thumbnail">
                 <?php echo get_thumbnail_html($post->ID); ?>
             </div>
-            <h1 class="single__title">
+            <h1>
                 <?php echo esc_html($post->post_title); ?>
             </h1>
             <?php if ($post->post_content) { ?>
-                <div class="single__body">
+                <div class="text_block">
                     <?php the_content(); ?>
                 </div>
             <?php } ?>
