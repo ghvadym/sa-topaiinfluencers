@@ -70,6 +70,10 @@
             width: 100%;
         }
     }
+
+    @include response-max($mobile) {
+        padding-bottom: 25px;
+    }
 }
 
 .hero__subtitle {
@@ -88,7 +92,9 @@
     position: relative;
 
     @include response-max($mobile) {
-        padding-top: 0;
+        margin-top: -56px;
+        padding: 0;
+        z-index: 1;
 
         .container {
             padding: 0;
@@ -113,6 +119,8 @@
 
     @include response-max($mobile) {
         padding: 16px 0;
+        backdrop-filter: blur(20px);
+        background: rgba(80, 80, 80, 0.1);
     }
 }
 

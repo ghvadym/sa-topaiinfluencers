@@ -12,7 +12,7 @@ $post = get_post();
                 <?php echo esc_html($post->post_title); ?>
             </h1>
             <?php if ($post->post_content) { ?>
-                <div class="text_block">
+                <div class="text_block_full">
                     <?php the_content(); ?>
                 </div>
             <?php } ?>

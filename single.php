@@ -3,6 +3,7 @@ get_header();
 $post = get_post();
 
 $content = $post->post_content ? explode('<!-- wp:heading -->', $post->post_content) : [];
+$content = array_filter($content);
 ?>
 
 <section class="single">

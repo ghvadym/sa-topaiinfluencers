@@ -12,6 +12,17 @@
                 slidesPerView: 'auto'
             });
         }
+        
+        if ($(window).width() < 1250) {
+            const headerMenu = $('#header');
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 50) {
+                    headerMenu.addClass('_scrolled');
+                } else {
+                    headerMenu.removeClass('_scrolled');
+                }
+            });
+        }
 
         if (header.length && burgerOpen.length && burgerClose.length) {
             $(document).on('click', '.header_burger_icon, .header_close_icon', function () {

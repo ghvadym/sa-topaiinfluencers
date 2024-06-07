@@ -72,3 +72,21 @@ function upload_mimes_types($types)
 
     return $types;
 }
+
+add_shortcode('top_influencers', 'top_influencers_call');
+function top_influencers_call($atts)
+{
+    $atts = shortcode_atts([
+        'count' => 10
+    ], $atts);
+
+    $posts = _get_posts([
+        'numberposts' => $atts['count']
+    ]);
+
+    ob_start();
+    get_template_part_var('global/top-influencers', [
+        'posts' => $posts
+    ]);
+    return ob_get_clean();
+}
