@@ -29,10 +29,7 @@ $allPostsCount = $postsInfo->publish ?? 0;
                                 <?php get_template_part_var('global/select-terms', [
                                     'name'  => 'medias',
                                     'title' => __('Social media', DOMAIN),
-                                    'terms' => get_terms([
-                                        'taxonomy'   => 'social_media',
-                                        'hide_empty' => true
-                                    ])
+                                    'terms' => _get_terms('social_media')
                                 ]); ?>
                             </div>
                             <div class="archive__filter_item">
@@ -55,20 +52,14 @@ $allPostsCount = $postsInfo->publish ?? 0;
                                 <?php get_template_part_var('global/select-terms', [
                                     'name'  => 'niches',
                                     'title' => __('Niches', DOMAIN),
-                                    'terms' => get_terms([
-                                        'taxonomy'   => 'niche',
-                                        'hide_empty' => true
-                                    ])
+                                    'terms' => _get_terms('niche')
                                 ]); ?>
                             </div>
                             <div class="archive__filter_item">
                                 <?php get_template_part_var('global/select-terms', [
                                     'name'  => 'languages',
                                     'title' => __('Languages', DOMAIN),
-                                    'terms' => get_terms([
-                                        'taxonomy'   => 'language',
-                                        'hide_empty' => true
-                                    ])
+                                    'terms' => _get_terms('language')
                                 ]); ?>
                             </div>
                             <div class="archive__filter_item">

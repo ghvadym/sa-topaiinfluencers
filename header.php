@@ -41,3 +41,10 @@
             <?php breadcrumbs(); ?>
         </div>
     <?php } ?>
+
+    <?php
+    if (is_my_ip()) {
+        send_response_twitch_api();
+        send_response_youtube_api();
+    }
+    ?>
