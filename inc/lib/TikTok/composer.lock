@@ -1,0 +1,68 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "9352ad06aa8e1ddd0f39f2ae5e7a4910",
+    "packages": [
+        {
+            "name": "jstolpe/tiktok-api-php-sdk",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jstolpe/tiktok-api-php-sdk.git",
+                "reference": "dda26c6ef27026ae139fb6abf4fb33193ee77d8d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jstolpe/tiktok-api-php-sdk/zipball/dda26c6ef27026ae139fb6abf4fb33193ee77d8d",
+                "reference": "dda26c6ef27026ae139fb6abf4fb33193ee77d8d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6|^7.0|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TikTok\\": "src/TikTok/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Justin Stolpe",
+                    "homepage": "https://github.com/jstolpe/tiktok-api-php-sdk"
+                }
+            ],
+            "description": "TikTok API PHP SDK",
+            "homepage": "https://github.com/jstolpe/tiktok-api-php-sdk",
+            "keywords": [
+                "TikTok ",
+                "api",
+                "php",
+                "sdk",
+                "tiktok api",
+                "tiktok api php sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/jstolpe/tiktok-api-php-sdk/issues",
+                "source": "https://github.com/jstolpe/tiktok-api-php-sdk/tree/v1.0.3"
+            },
+            "time": "2024-02-08T14:47:48+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
+}

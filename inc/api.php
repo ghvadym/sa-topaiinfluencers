@@ -1,5 +1,10 @@
 <?php
 
+require_once('lib/TikTok/vendor/autoload.php');
+use TikTok\Authentication\Authentication;
+use TikTok\User\User;
+use TikTok\Request\Params;
+
 function send_response_youtube_api(string $channelId = '', int $userId = 0)
 {
     /* temporary */
@@ -71,12 +76,15 @@ function send_response_twitch_api(string $username = '', int $userId = 0)
         return;
     }
 
-    $subscribers = twitch_api_request([
-        'token'     => $token,
-        'client_id' => $clientId,
+    $subscribers = api_request([
         'curl_url'  => 'https://api.twitch.tv/helix/channels/followers?' . http_build_query([
             'broadcaster_id' => $broadcasterId
-        ])
+        ]),
+        'headers'   => [
+            'Content-Type: application/json',
+            "Authorization: Bearer $token",
+            "Client-Id: $clientId"
+        ]
     ]);
 
     if (!empty($subscribers->total)) {
@@ -116,25 +124,18 @@ function twitch_token($clientId = 0): string
     return $token;
 }
 
-function twitch_api_request(array $args = [])
+function api_request(array $args = [])
 {
     if (empty($args)) {
         return [];
     }
 
-    $clientId = $args['client_id'] ?? '';
-    $token = $args['token'] ?? '';
     $curlUrl = $args['curl_url'] ?? '';
     $method = $args['method'] ?? 'GET';
-    $data = $args['data'] ?? [];
+    $postData = $args['data'] ?? [];
+    $header = $args['headers'] ?? [];
 
     $curl = curl_init();
-
-    $header = [
-        'Content-Type: application/json',
-        "Authorization: Bearer $token",
-        "Client-Id: $clientId",
-    ];
 
     $params = [
         CURLOPT_URL            => $curlUrl,
@@ -144,8 +145,8 @@ function twitch_api_request(array $args = [])
         CURLOPT_CUSTOMREQUEST  => $method
     ];
 
-    if ($method !== 'GET' && !empty($data)) {
-        $params[CURLOPT_POSTFIELDS] = json_encode($data);
+    if ($method !== 'GET' && !empty($postData)) {
+        $params[CURLOPT_POSTFIELDS] = json_encode($postData);
     }
 
     curl_setopt_array($curl, $params);
@@ -169,12 +170,15 @@ function get_twitch_user_id(string $username = '', string $token = '', string $c
         return 0;
     }
 
-    $broadcaster = twitch_api_request([
-        'token'     => $token,
-        'client_id' => $clientId,
+    $broadcaster = api_request([
         'curl_url'  => 'https://api.twitch.tv/helix/users?' . http_build_query([
             'login' => $username
-        ])
+        ]),
+        'headers'   => [
+            'Content-Type: application/json',
+            "Authorization: Bearer $token",
+            "Client-Id: $clientId"
+        ]
     ]);
 
     if (!empty($broadcaster->data)) {
@@ -190,4 +194,123 @@ function get_twitch_user_id(string $username = '', string $token = '', string $c
     }
 
     return 0;
+}
+
+function send_response_x_api(string $xName = '')
+{
+    $apiKey = 'KOgYtOBxeo6Z9Gwo9WQOJMb4I';
+    $apiKeySecret = 'DqJi3Y4lefH6dfRkaMbZJ8l1wPsRgwASJnrdb2mTbXey7MtiK5';
+    $bearerToken = 'AAAAAAAAAAAAAAAAAAAAAHLwuAEAAAAAjX7tgXSoANvb4Q%2Fy5kkeh%2BB0Y24%3DS597sNYUHsNzFGcwOaMGwg5oNNAo3Mogsy09PMSrtNcRHxlDJE';
+    $accessToken = '1800165922830798848-Hp6gQyLST9TR0uquqUx9t0Dv3l7iqm';
+    $accessTokenSecret = '6u8FQqHia90cqNBpA7TWGG4Lsb8KIV2n6OqbzC6afptpg';
+
+    $xName = 'elonmusk';
+    if (!$xName) {
+        return;
+    }
+
+    $response = api_request([
+        'curl_url'  => 'https://api.twitter.com/1.1/lists/list.json?' . http_build_query([
+            'screen_name' => $xName
+        ]),
+        'headers'   => [
+            'Content-Type: application/json',
+            "Authorization: Bearer $bearerToken"
+        ]
+    ]);
+}
+
+function send_response_tiktok_api(string $username = '', string $token = '')
+{
+    $response = api_request([
+        'curl_url'  => 'https://open.tiktokapis.com/v2/user/info/',
+        'headers'   => [
+            'Content-Type: application/x-www-form-urlencoded',
+            "Authorization: Bearer $token"
+        ]
+    ]);
+}
+
+function tiktok_token()
+{
+    $response = api_request([
+        'curl_url' => 'https://open.tiktokapis.com/v2/oauth/token?' . http_build_query([
+            'client_key'    => 'awlczkamy5ho78ja',
+            'client_secret' => '5ZpuVFYZNs1uKrJS9ciGY5sGwJDpCWy4',
+            'grant_type'    => 'client_credentials'
+        ]),
+        'headers'  => [
+            'Content-Type: application/x-www-form-urlencoded'
+        ]
+    ]);
+}
+
+function tiktok_auth()
+{
+    $clientKey = get_api_key('tiktok_client_key');
+    $clientSecret = get_api_key('tiktok_client_secret');
+
+    if (!$clientKey || !$clientSecret) {
+        return '';
+    }
+
+    return new Authentication([
+        'client_key'    => $clientKey,
+        'client_secret' => $clientSecret
+    ]);
+}
+
+function tiktok_token_request(): string
+{
+    $authentication = tiktok_auth();
+    $redirectUri = home_url();
+
+    $scopes = [
+        'user.info.basic',
+        'user.info.stats'
+    ];
+
+    return $authentication->getAuthenticationUrl($redirectUri, $scopes);
+}
+
+function tiktok_get_token(): string
+{
+    $authentication = tiktok_auth();
+    $redirectUri = home_url();
+
+    $tokenFromCode = $authentication->getAccessTokenFromCode($_GET['code'], $redirectUri);
+
+    return $tokenFromCode['access_token'] ?? '';
+}
+
+function tiktok_refresh_token(string $token = ''): string
+{
+    if (!$token) {
+        return '';
+    }
+
+    $authentication = tiktok_auth();
+
+    $tokenRefresh = $authentication->getRefreshAccessToken($token);
+
+    return $tokenRefresh['access_token'] ?? '';
+}
+
+function tiktok_get_user_info(string $token = '')
+{
+    if (!$token) {
+        return '';
+    }
+
+    $config = [
+        'access_token' => $token
+    ];
+
+    $user = new User($config);
+
+    $params = Params::getFieldsParam([
+        'follower_count'
+    ]);
+
+    return $user->getSelf($params);
 }

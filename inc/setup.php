@@ -81,7 +81,10 @@ function top_influencers_call($atts)
     ], $atts);
 
     $posts = _get_posts([
-        'numberposts' => $atts['count']
+        'numberposts' => $atts['count'],
+        'meta_key'    => 'subscribers',
+        'orderby'     => 'meta_value_num',
+        'order'       => 'DESC'
     ]);
 
     ob_start();
