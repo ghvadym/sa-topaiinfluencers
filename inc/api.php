@@ -5,49 +5,7 @@ use TikTok\Authentication\Authentication;
 use TikTok\User\User;
 use TikTok\Request\Params;
 
-function send_response_youtube_api(string $channelId = '', int $userId = 0)
-{
-    /* temporary */
-    $channelId = 'UCYPG0U6cSqfqSV8E7OoGWoA';
-    $userId = 1096;
-    /* temporary end */
-
-    if (!$channelId) {
-        return;
-    }
-
-    $apiKey = get_api_key('youtube_api');
-
-    if (empty($apiKey)) {
-        return;
-    }
-
-    $responseUrl = 'https://www.googleapis.com/youtube/v3/channels?' . http_build_query([
-        'part' => 'statistics',
-        'id'   => $channelId,
-        'key'  => $apiKey
-    ]);
-
-    $response = file_get_contents($responseUrl);
-
-    $responseArray = json_decode($response, true);
-
-    if (empty($responseArray['items'])) {
-        return;
-    }
-
-    $statistics = $responseArray['items'][0]['statistics'] ?? [];
-
-    if (empty($statistics)) {
-        return;
-    }
-
-    if (isset($statistics['subscriberCount'])) {
-        update_field('youtube_subscribers', $statistics['subscriberCount'] ?? 0, $userId);
-    }
-}
-
-function send_response_twitch_api(string $username = '', int $userId = 0)
+function send_request_twitch_api(string $username = '', int $userId = 0)
 {
     /* temporary */
     $username = 'gust_taid';
@@ -196,7 +154,7 @@ function get_twitch_user_id(string $username = '', string $token = '', string $c
     return 0;
 }
 
-function send_response_x_api(string $xName = '')
+function send_request_x_api(string $xName = '')
 {
     $apiKey = 'KOgYtOBxeo6Z9Gwo9WQOJMb4I';
     $apiKeySecret = 'DqJi3Y4lefH6dfRkaMbZJ8l1wPsRgwASJnrdb2mTbXey7MtiK5';
@@ -220,7 +178,30 @@ function send_response_x_api(string $xName = '')
     ]);
 }
 
-function send_response_tiktok_api(string $username = '', string $token = '')
+function tiktok_get_access_token()
+{
+    $clientKey = get_api_key('tiktok_client_key');
+    $clientSecret = get_api_key('tiktok_client_secret');
+
+    if (!$clientKey || !$clientSecret) {
+        return '';
+    }
+
+    return api_request([
+        'method'   => 'POST',
+        'curl_url' => 'https://open.tiktokapis.com/v2/oauth/token/',
+        'headers'  => [
+            'Content-Type: application/x-www-form-urlencoded'
+        ],
+        'body'     => [
+            'client_key'    => $clientKey,
+            'client_secret' => $clientSecret,
+            'grant_type'    => 'client_credentials'
+        ]
+    ]);
+}
+
+function send_request_tiktok_api(string $username = '', string $token = '')
 {
     $response = api_request([
         'curl_url'  => 'https://open.tiktokapis.com/v2/user/info/',
@@ -231,18 +212,31 @@ function send_response_tiktok_api(string $username = '', string $token = '')
     ]);
 }
 
-function tiktok_token()
+function tiktok_get_user_info_by_name(string $token = '', string $username = ''): string
 {
+    if (!$token || !$username) {
+        return '';
+    }
+
     $response = api_request([
-        'curl_url' => 'https://open.tiktokapis.com/v2/oauth/token?' . http_build_query([
-            'client_key'    => 'awlczkamy5ho78ja',
-            'client_secret' => '5ZpuVFYZNs1uKrJS9ciGY5sGwJDpCWy4',
-            'grant_type'    => 'client_credentials'
+        'method'   => 'POST',
+        'curl_url' => 'https://open.tiktokapis.com/v2/research/user/info/?' . http_build_query([
+            'fields' => 'follower_count'
         ]),
         'headers'  => [
-            'Content-Type: application/x-www-form-urlencoded'
+            'Content-Type: text/plain',
+            "Authorization: Bearer $token",
+        ],
+        'body'     => [
+            'username' => $username
         ]
     ]);
+
+    if (empty($response->data)) {
+        return '';
+    }
+
+    return $response->data->follower_count ?? '';
 }
 
 function tiktok_auth()
@@ -260,7 +254,7 @@ function tiktok_auth()
     ]);
 }
 
-function tiktok_token_request(): string
+function tiktok_token_auth_url(): string
 {
     $authentication = tiktok_auth();
     $redirectUri = home_url();
@@ -273,14 +267,24 @@ function tiktok_token_request(): string
     return $authentication->getAuthenticationUrl($redirectUri, $scopes);
 }
 
-function tiktok_get_token(): string
+function tiktok_auth_token(): string
 {
+    if (empty($_GET['code'])) {
+        return '';
+    }
+
     $authentication = tiktok_auth();
     $redirectUri = home_url();
 
     $tokenFromCode = $authentication->getAccessTokenFromCode($_GET['code'], $redirectUri);
 
     return $tokenFromCode['access_token'] ?? '';
+}
+
+function tiktok_client_access_token(): string
+{
+    $authentication = tiktok_auth();
+    return $authentication->getClientAccessToken();
 }
 
 function tiktok_refresh_token(string $token = ''): string
@@ -313,4 +317,62 @@ function tiktok_get_user_info(string $token = '')
     ]);
 
     return $user->getSelf($params);
+}
+
+function instagram_data()
+{
+    $appId = get_api_key('instagram_app_id');
+    $appSecret = get_api_key('instagram_app_secret');
+
+    if (!$appId || !$appSecret) {
+        return null;
+    }
+
+    $redirectUri = home_url();
+
+    return 'https://api.instagram.com/oauth/authorize?'. http_build_query([
+        'app_id'        => $appId,
+        'redirect_uri'  => $redirectUri,
+        'scope'         => 'user_profile',
+        'response_type' => 'code'
+    ]);
+}
+
+function facebook_auth_token()
+{
+    if (empty($_GET['code']) || empty($_GET['state']) || $_GET['state'] !== 'facebook_auth') {
+        return '';
+    }
+
+    $appId = get_api_key('instagram_app_id');
+    $appSecret = get_api_key('instagram_app_secret');
+    $redirectUrl = home_url();
+
+    $params = [
+        'client_id'     => $appId,
+        'client_secret' => $appSecret,
+        'redirect_uri'  => $redirectUrl,
+        'code'          => $_GET['code']
+    ];
+
+    $data = file_get_contents('https://graph.facebook.com/oauth/access_token?' . urldecode(http_build_query($params)));
+    $data = json_decode($data, true);
+
+    return $data['access_token'] ?? '';
+}
+
+function facebook_auth_url()
+{
+    $appId = get_api_key('instagram_app_id');
+    $redirectUri = home_url();
+
+    $params = [
+        'client_id'     => $appId,
+        'redirect_uri'  => $redirectUri,
+        'scope'         => 'email',
+        'response_type' => 'code',
+        'state'         => 'facebook_auth'
+    ];
+
+    return 'https://www.facebook.com/dialog/oauth?' . urldecode(http_build_query($params));
 }

@@ -9,3 +9,6 @@ if (!defined('TAI_THEME_PATH')) {
 }
 
 require_once('inc/init.php');
+
+/* Load classes */
+require_once('api/autoloader.php');

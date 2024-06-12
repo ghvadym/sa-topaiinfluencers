@@ -41,3 +41,21 @@
             <?php breadcrumbs(); ?>
         </div>
     <?php } ?>
+
+<?php
+
+echo ("<pre>");
+//var_dump(TAI_Google_API::getUserSubscribers('UCwVQIkAtyZzQSA-OY1rsGig', 1096));
+var_dump(TAI_Google_API::getUserSubscribers('MusicLabChill', 1096));
+echo ("</pre>");
+
+//if (is_my_ip()) {
+//    echo '<a href="'.facebook_auth_url().'">Login FB</a>';
+//    echo '<a href="'.tiktok_token_auth_url().'">Login TikTok</a>';
+//    echo ("<pre>");
+//    var_dump(facebook_auth_token());
+//    var_dump(tiktok_auth_token());
+//    echo ("</pre>");
+//    return;
+//}
+?>
