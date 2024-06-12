@@ -13,7 +13,7 @@ class TAI_Google_API
         self::$apiKey = get_api_key('youtube_api');
     }
 
-    static function getUserSubscribers(string $channelName = '', int $userId = 0)
+    static function updateSubscribers(string $channelName = '', int $userId = 0)
     {
         if (!self::$apiKey || !$channelName) {
             return null;
@@ -34,11 +34,7 @@ class TAI_Google_API
         $response = file_get_contents($getChannelDataUrl);
         $responseArray = json_decode($response, true);
 
-        $subscribers = self::getSubscribers($responseArray);
-
-        self::updateMetaData($subscribers, $userId);
-
-        return $subscribers;
+        return self::getSubscribers($responseArray, $userId);
     }
 
     static function getChannelIdByName($channelName)
@@ -74,7 +70,7 @@ class TAI_Google_API
         ]);
     }
 
-    private static function getSubscribers($response)
+    private static function getSubscribers($response, $userId)
     {
         if (empty($response['items'])) {
             return null;
@@ -86,7 +82,13 @@ class TAI_Google_API
             return null;
         }
 
-        return $statistics['subscriberCount'] ?? 0;
+        $total = $statistics['subscriberCount'] ?? 0;
+
+        if ($userId) {
+            update_field('youtube_subscribers', $total, $userId);
+        }
+
+        return $total;
     }
 
     private static function getChannelId($response)
@@ -102,12 +104,5 @@ class TAI_Google_API
         }
 
         return $channelIds['channelId'] ?? 0;
-    }
-
-    static function updateMetaData($subscribers, $userId)
-    {
-        if ($subscribers && $userId) {
-            update_field('youtube_subscribers', $subscribers, $userId);
-        }
     }
 }
