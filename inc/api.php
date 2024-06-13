@@ -5,155 +5,6 @@ use TikTok\Authentication\Authentication;
 use TikTok\User\User;
 use TikTok\Request\Params;
 
-function send_request_twitch_api(string $username = '', int $userId = 0)
-{
-    /* temporary */
-    $username = 'gust_taid';
-    $userId = 1096;
-    /* temporary end */
-
-    if (!$username || !$userId) {
-        return;
-    }
-
-    $clientId = get_api_key('twitch_client_id');
-
-    if (empty($clientId)) {
-        return;
-    }
-
-    $token = twitch_token($clientId);
-
-    if (empty($token)) {
-        return;
-    }
-
-    $broadcasterId = get_twitch_user_id($username, $token, $clientId);
-
-    if (!$broadcasterId) {
-        return;
-    }
-
-    $subscribers = api_request([
-        'curl_url'  => 'https://api.twitch.tv/helix/channels/followers?' . http_build_query([
-            'broadcaster_id' => $broadcasterId
-        ]),
-        'headers'   => [
-            'Content-Type: application/json',
-            "Authorization: Bearer $token",
-            "Client-Id: $clientId"
-        ]
-    ]);
-
-    if (!empty($subscribers->total)) {
-        update_field('twitch_subscribers', $subscribers->total, $userId);
-    }
-}
-
-function twitch_token($clientId = 0): string
-{
-    if (!$clientId) {
-        return '';
-    }
-
-    $token = get_option('twitch_access_token', '');
-    $tokenExpirationTime = get_option('twitch_access_token_expires_in', '');
-    $clientSecret = get_api_key('twitch_client_secret');
-
-    if (!$clientSecret) {
-        return $token;
-    }
-
-    if (!$token || !$tokenExpirationTime || $tokenExpirationTime < time()) {
-        $response = http('https://id.twitch.tv/oauth2/token', [
-            'grant_type'    => 'client_credentials',
-            'client_id'     => $clientId,
-            'client_secret' => $clientSecret,
-            'redirect_uri'  => home_url()
-        ]);
-
-        if (!empty($response->access_token)) {
-            $token = $response->access_token;
-            update_option('twitch_access_token', $token);
-            update_option('twitch_access_token_expires_in', time() + $response->expires_in);
-        }
-    }
-
-    return $token;
-}
-
-function api_request(array $args = [])
-{
-    if (empty($args)) {
-        return [];
-    }
-
-    $curlUrl = $args['curl_url'] ?? '';
-    $method = $args['method'] ?? 'GET';
-    $postData = $args['data'] ?? [];
-    $header = $args['headers'] ?? [];
-
-    $curl = curl_init();
-
-    $params = [
-        CURLOPT_URL            => $curlUrl,
-        CURLINFO_HEADER_OUT    => true,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER     => $header,
-        CURLOPT_CUSTOMREQUEST  => $method
-    ];
-
-    if ($method !== 'GET' && !empty($postData)) {
-        $params[CURLOPT_POSTFIELDS] = json_encode($postData);
-    }
-
-    curl_setopt_array($curl, $params);
-
-    $response = curl_exec($curl);
-
-    curl_close($curl);
-
-    return json_decode($response);
-}
-
-function get_twitch_user_id(string $username = '', string $token = '', string $clientId = ''): int
-{
-    $twitchUsers = get_option('twitch_users', []);
-    
-    if ($username && !empty($twitchUsers[$username])) {
-        return !empty($twitchUsers[$username]['id']) ? $twitchUsers[$username]['id'] : 0;
-    }
-
-    if (empty($token) || empty($clientId)) {
-        return 0;
-    }
-
-    $broadcaster = api_request([
-        'curl_url'  => 'https://api.twitch.tv/helix/users?' . http_build_query([
-            'login' => $username
-        ]),
-        'headers'   => [
-            'Content-Type: application/json',
-            "Authorization: Bearer $token",
-            "Client-Id: $clientId"
-        ]
-    ]);
-
-    if (!empty($broadcaster->data)) {
-        $twitchUsers = array_merge([
-            $username => [
-                'id' => $broadcaster->data[0]->id
-            ]
-        ], $twitchUsers);
-
-        update_option('twitch_users', $twitchUsers);
-
-        return $broadcaster->data[0]->id;
-    }
-
-    return 0;
-}
-
 function send_request_x_api(string $xName = '')
 {
     $apiKey = 'KOgYtOBxeo6Z9Gwo9WQOJMb4I';
@@ -319,40 +170,15 @@ function tiktok_get_user_info(string $token = '')
     return $user->getSelf($params);
 }
 
-function instagram_data()
-{
-    $appId = get_api_key('instagram_app_id');
-    $appSecret = get_api_key('instagram_app_secret');
-
-    if (!$appId || !$appSecret) {
-        return null;
-    }
-
-    $redirectUri = home_url();
-
-    return 'https://api.instagram.com/oauth/authorize?'. http_build_query([
-        'app_id'        => $appId,
-        'redirect_uri'  => $redirectUri,
-        'scope'         => 'user_profile',
-        'response_type' => 'code'
-    ]);
-}
-
 function facebook_auth_token()
 {
-    if (empty($_GET['code']) || empty($_GET['state']) || $_GET['state'] !== 'facebook_auth') {
-        return '';
-    }
-
-    $appId = get_api_key('instagram_app_id');
-    $appSecret = get_api_key('instagram_app_secret');
-    $redirectUrl = home_url();
+    $appId = get_api_key('facebook_app_id');
+    $appSecret = get_api_key('facebook_app_secret');
 
     $params = [
         'client_id'     => $appId,
         'client_secret' => $appSecret,
-        'redirect_uri'  => $redirectUrl,
-        'code'          => $_GET['code']
+        'grant_type'    => 'client_credentials'
     ];
 
     $data = file_get_contents('https://graph.facebook.com/oauth/access_token?' . urldecode(http_build_query($params)));
@@ -361,18 +187,74 @@ function facebook_auth_token()
     return $data['access_token'] ?? '';
 }
 
-function facebook_auth_url()
+function get_facebook_long_term_token(string $token = '')
 {
-    $appId = get_api_key('instagram_app_id');
-    $redirectUri = home_url();
+    $token = get_option('facebook_access_token', '');
+    $tokenExpirationTime = get_option('facebook_access_token_expires_in', '');
+
+    if ($token && $tokenExpirationTime && $tokenExpirationTime > time()) {
+        return $token;
+    }
+
+    $appId = get_api_key('facebook_app_id');
+    $appSecret = get_api_key('facebook_app_secret');
+    $accessToken = get_api_key('facebook_access_token');
+//    $token = 'EABv2GZALb40QBO1gSZAGsvYZBZCOrwubOK8GJtkrqa4IPXi2sB2p7NJIrY3Xnu87jMWGWUZAEGtDlnK5vD02y1WjZBpcfrJcVRrCEOwJKgQ7ZBf48ZA74HZCiChWSNglx3F8ZAINZCHwJaRZBFZBPyWZB02CYCvRPNxx2lPee8DNOzv3MCkw4IeWbz3YxdQnKs0YusZCUN5DwzzZCaVoX0ZCpiIBajQZDZD';
 
     $params = [
-        'client_id'     => $appId,
-        'redirect_uri'  => $redirectUri,
-        'scope'         => 'email',
-        'response_type' => 'code',
-        'state'         => 'facebook_auth'
+//        'client_id'         => '7870414069687108',
+//        'client_secret'     => '859d3add6a1f838e7bc3957ee42c7fc6',
+//        'grant_type'        => 'fb_exchange_token',
+        'client_id'         => $appId,
+        'client_secret'     => $appSecret,
+        'grant_type'        => 'fb_exchange_token',
+        'fb_exchange_token' => $accessToken
     ];
 
-    return 'https://www.facebook.com/dialog/oauth?' . urldecode(http_build_query($params));
+    $data = file_get_contents('https://graph.facebook.com/v20.0/oauth/access_token?' . urldecode(http_build_query($params)));
+    $data = json_decode($data, true);
+
+    $token = $data['access_token'] ?? '';
+    $expiresIn = $data['expires_in'] ?? '';
+
+    if ($token && $expiresIn) {
+        update_option('facebook_access_token', $token);
+        update_option('facebook_access_token_expires_in', time() + $expiresIn);
+    }
+
+    return $token;
+}
+
+function instagram_subscribers()
+{
+    $userId = 1096;
+    $instAccId = get_api_key('instagram_business_account_id');
+    $accessToken = get_api_key('facebook_access_token');
+    $username = 'nasa';
+    //$instAccId = '17841453170571388';
+    //$token = 'EABv2GZALb40QBO1gSZAGsvYZBZCOrwubOK8GJtkrqa4IPXi2sB2p7NJIrY3Xnu87jMWGWUZAEGtDlnK5vD02y1WjZBpcfrJcVRrCEOwJKgQ7ZBf48ZA74HZCiChWSNglx3F8ZAINZCHwJaRZBFZBPyWZB02CYCvRPNxx2lPee8DNOzv3MCkw4IeWbz3YxdQnKs0YusZCUN5DwzzZCaVoX0ZCpiIBajQZDZD';
+    //$token = 'EABv2GZALb40QBOZCKf5Lt4dhHtFmzx5U8bMUigxjTbgnheFOfsAJJmZASwaJS8lZAFZBr2ZCdNgovYaosTkidhxubcosZAO9iaiS6rzkADobZCrogZC6Ill57FdH83I6ZAAfkZAMD9MoJIPx8VUMzCyNbeT9TYMweYOQnh9cf4ZCNZCAovbZAGl8CiGUDbXhOg';
+
+    $data = file_get_contents(
+        sprintf(
+        'https://graph.facebook.com/v20.0/%s?fields=business_discovery.username(%s){followers_count}&access_token=%s',
+            $instAccId,
+            $username,
+            $accessToken
+        )
+    );
+
+    $data = json_decode($data, true);
+
+    $businessDiscovery = $data['business_discovery'] ?? [];
+
+    if (!empty($businessDiscovery)) {
+        $subscribers = $businessDiscovery['followers_count'] ?? 0;
+
+        if ($userId) {
+            update_field('instagram_subscribers', $subscribers, $userId);
+        }
+    }
+
+    return $subscribers ?? 0;
 }
