@@ -6,18 +6,9 @@ class TAI_Instagram_API
     const INSTAGRAM_API_TOKEN_URL = 'https://graph.facebook.com/v20.0/oauth/access_token/';
     const INSTAGRAM_API_FOLLOWERS_URL = 'https://graph.facebook.com/v20.0/%s?fields=business_discovery.username(%s){followers_count}&access_token=%s';
 
-    private static string $accountId = '';
-    private static string $accessToken = '';
-
-    static function init()
-    {
-        self::$accountId = get_api_key('instagram_business_account_id');
-        self::$accessToken = get_api_key('facebook_access_token');
-    }
-
     static function updateSubscribers(string $username = '', int $userId = 0)
     {
-        if (!$username || !self::$accessToken) {
+        if (!$username) {
             return null;
         }
 
@@ -27,7 +18,7 @@ class TAI_Instagram_API
             return null;
         }
 
-        return self::getSubscribers($username, $userId);
+        return self::getSubscribers($token, $username, $userId);
     }
 
     static function getToken()
@@ -41,8 +32,9 @@ class TAI_Instagram_API
 
         $appId = get_api_key('facebook_app_id');
         $appSecret = get_api_key('facebook_app_secret');
+        $accessToken = get_api_key('facebook_access_token');
 
-        if (!$appId || !$appSecret) {
+        if (!$appId || !$appSecret || !$accessToken) {
             return null;
         }
 
@@ -50,7 +42,7 @@ class TAI_Instagram_API
             'client_id'         => $appId,
             'client_secret'     => $appSecret,
             'grant_type'        => 'fb_exchange_token',
-            'fb_exchange_token' => self::$accessToken
+            'fb_exchange_token' => $accessToken
         ];
 
         $data = file_get_contents(self::INSTAGRAM_API_TOKEN_URL . '?' . urldecode(http_build_query($params)));
@@ -72,18 +64,24 @@ class TAI_Instagram_API
         return $token;
     }
 
-    static function getSubscribers($username, $userId)
+    static function getSubscribers($token, $username, $userId)
     {
         if (!$username) {
+            return null;
+        }
+
+        $accountId = get_api_key('instagram_business_account_id');
+
+        if (!$accountId) {
             return null;
         }
 
         $data = file_get_contents(
             sprintf(
                 self::INSTAGRAM_API_FOLLOWERS_URL,
-                self::$accountId,
+                $accountId,
                 $username,
-                self::$accessToken
+                $token
             )
         );
 
