@@ -1,4 +1,5 @@
 .faq_section {
+    clear: both;
     padding-bottom: 160px;
 
     @include response-max($laptop-landscape) {

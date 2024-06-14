@@ -3,14 +3,8 @@ if (empty($post)) {
     return;
 }
 
-$socials = [
-    'instagram' => '2.3',
-    'tiktok'    => '2.3',
-    'F'         => '2.3',
-    'X'         => '2.3',
-    'youtube'   => '2.3',
-    'twitch'    => '2.3'
-];
+$fields = get_fields($post->ID);
+$socials = socials();
 ?>
 
 <div class="card__img">
@@ -21,16 +15,33 @@ $socials = [
         <?php echo esc_html($post->post_title); ?>
     </h1>
     <div class="card__socials">
-        <?php foreach ($socials as $svg => $value) { ?>
+        <?php foreach ($socials as $key => $field) {
+            $subscribers = $fields[$field] ?? 0;
+
+            if (!$subscribers) {
+                continue;
+            }
+            ?>
             <div class="card__social">
-                <?php get_svg($svg); ?>
-                <span>2.3M</span>
+                <?php get_svg($key); ?>
+                <span><?php echo short_number_format($subscribers); ?></span>
             </div>
         <?php } ?>
-        <div class="card__social full">
-            <?php get_svg('network'); ?>
-            <span>123_xcopy_xcopy-123.com</span>
-        </div>
+        <?php if (!empty($fields['websites'])) { ?>
+            <?php foreach ($fields['websites'] as $website) {
+                $url = $website['url'] ?? '';
+                if (!$url) {
+                    continue;
+                }
+
+                $title = parse_url($url, PHP_URL_HOST);
+                ?>
+                <div class="card__social full btn">
+                    <?php get_svg('network'); ?>
+                    <a href="<?php echo esc_url($url); ?>"><?php echo esc_html($title); ?></a>
+                </div>
+            <?php } ?>
+        <?php } ?>
     </div>
     <div class="card__social_btn btn">
         <?php _e('Get in touch', DOMAIN); ?>

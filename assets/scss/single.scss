@@ -54,9 +54,17 @@
     background: rgb(71, 0, 186);
     background: linear-gradient(45deg, rgb(71 0 186 / 40%) 0%, rgb(186 0 178 / 37%) 100%);
 
-
     &.full {
         grid-column: span 3;
+        white-space: normal;
+
+        a {
+            text-transform: lowercase;
+            text-align: left;
+            max-width: 75%;
+            @include line-break(1);
+            overflow: hidden;
+        }
 
         @include response-max($mobile) {
             grid-column: span 2;
@@ -67,6 +75,7 @@
         width: 17px;
         height: 17px;
         margin-right: 6px;
+        flex-shrink: 0;
     }
 
     span {
