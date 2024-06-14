@@ -15,7 +15,9 @@ $author_avatar = get_avatar_url($author_id);
            class="article__img<?php echo empty($full_card_info) ? ' cropped-img' : ''; ?>">
             <?php echo $thumbnail; ?>
             <?php if ($post->post_type === 'post') {
-                get_template_part_var('cards/card-socials');
+                get_template_part_var('cards/card-socials', [
+                    'post_id' => $post->ID
+                ]);
             } ?>
         </a>
         <div class="article__content">

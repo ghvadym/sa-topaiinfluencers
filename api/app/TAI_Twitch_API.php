@@ -29,7 +29,7 @@ class TAI_Twitch_API
         $broadcasterId = self::getBroadcasterId($channelName, $token);
         
         if (empty($broadcasterId)) {
-            return 0;
+            return null;
         }
 
         return self::getSubscribers($broadcasterId, $token, $userId);

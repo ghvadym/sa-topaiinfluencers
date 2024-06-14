@@ -243,3 +243,30 @@ function socials_data(): array
         //'tiktok_username'      => 'TAI_Tiktok_API
     ];
 }
+
+function socials(): array
+{
+    return [
+        'instagram' => 'instagram_subscribers',
+        'twitch'    => 'twitch_subscribers',
+        'youtube'   => 'youtube_subscribers',
+        //'tiktok'    => 'tiktok_subscribers'
+    ];
+}
+
+function short_number_format(int $number = 0)
+{
+    if (!$number) {
+        return '';
+    }
+
+    if ($number < 1000) {
+        return $number;
+    } else if ($number < 1000000) {
+        return number_format($number / 1000) . 'K';
+    } else if ($number < 1000000000) {
+        return number_format($number / 1000000) . 'M';
+    } else {
+        return number_format($number / 1000000000) . 'B';
+    }
+}
