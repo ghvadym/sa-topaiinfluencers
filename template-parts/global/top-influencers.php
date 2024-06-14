@@ -3,14 +3,7 @@ if (empty($posts)) {
     return;
 }
 
-$socials = [
-    'instagram',
-    'tiktok',
-    'F',
-    'X',
-    'youtube',
-    'twitch'
-];
+$socials = socials();
 ?>
 
 <div class="table">
@@ -20,15 +13,19 @@ $socials = [
             <div class="table__cell col-name">
                 <?php _e('Influencer', DOMAIN); ?>
             </div>
-            <?php foreach ($socials as $social) { ?>
-                <div class="table__cell">
-                    <?php get_svg($social); ?>
-                </div>
+            <?php if (!empty($socials)) { ?>
+                <?php foreach ($socials as $key => $field) { ?>
+                    <div class="table__cell">
+                        <?php get_svg($key); ?>
+                    </div>
+                <?php } ?>
             <?php } ?>
         </div>
     </div>
     <div class="table__body">
-        <?php foreach ($posts as $i => $post) { ?>
+        <?php foreach ($posts as $i => $post) {
+            $subscribers = socials();
+            $fields = get_fields($post->ID); ?>
             <div class="table__row">
                 <div class="table__cell">
                     <?php echo $i + 1; ?>
@@ -43,30 +40,15 @@ $socials = [
                         <?php echo esc_html($post->post_title); ?>
                     </a>
                 </div>
-                <div class="table__cell">
-                    <?php get_svg('instagram'); ?>
-                    189K
-                </div>
-                <div class="table__cell">
-                    <?php get_svg('tiktok'); ?>
-                    189K
-                </div>
-                <div class="table__cell">
-                    <?php get_svg('F'); ?>
-                    189K
-                </div>
-                <div class="table__cell">
-                    <?php get_svg('X'); ?>
-                    189K
-                </div>
-                <div class="table__cell">
-                    <?php get_svg('youtube'); ?>
-                    189K
-                </div>
-                <div class="table__cell">
-                    <?php get_svg('twitch'); ?>
-                    189K
-                </div>
+                <?php if (!empty($socials)) { ?>
+                    <?php foreach ($socials as $key => $field) {
+                        $subscribers = $fields[$field] ?? 0; ?>
+                        <div class="table__cell">
+                            <?php get_svg($key); ?>
+                            <?php echo $subscribers ? short_number_format($subscribers) : '-'; ?>
+                        </div>
+                    <?php } ?>
+                <?php } ?>
             </div>
         <?php } ?>
     </div>

@@ -69,17 +69,24 @@ function archive_filter()
             }
         }
 
-        $subscribers = $data['subscribers'] ?? [];
+        $subscribers = $data['subscribers'] ?? 0;
+        $socials = socials();
 
-        if (!empty($subscribers)) {
-            $subscribersRange = explode(',', $subscribers);
+        if ($subscribers && !empty($socials)) {
+            foreach ($socials as $socialKey) {
+                if (!isset($args['meta_query'])) {
+                    $args['meta_query'] = [
+                        'relation' => 'OR'
+                    ];
+                }
 
-            $args['meta_query']['price_query'] = [
-                'key'     => 'subscribers',
-                'value'   => $subscribersRange,
-                'type'    => 'numeric',
-                'compare' => 'BETWEEN'
-            ];
+                $args['meta_query'][] = [
+                    'key'     => $socialKey,
+                    'value'   => $subscribers,
+                    'type'    => 'numeric',
+                    'compare' => '>'
+                ];
+            }
         }
     }
 

@@ -256,10 +256,6 @@ function socials(): array
 
 function short_number_format(int $number = 0)
 {
-    if (!$number) {
-        return '';
-    }
-
     if ($number < 1000) {
         return $number;
     } else if ($number < 1000000) {

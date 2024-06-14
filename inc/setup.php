@@ -80,17 +80,38 @@ function top_influencers_call($atts)
         'count' => 10
     ], $atts);
 
-    $posts = _get_posts([
-        'numberposts' => $atts['count'],
-        'meta_key'    => 'subscribers',
-        'orderby'     => 'meta_value_num',
-        'order'       => 'DESC'
-    ]);
+    $args = [
+        'numberposts' => $atts['count']
+    ];
+
+    $socials = socials();
+
+    if (!empty($socials)) {
+        foreach ($socials as $socialKey) {
+            if (!isset($args['meta_query'])) {
+                $args['meta_query'] = [
+                    'relation' => 'AND'
+                ];
+            }
+
+            $args['meta_query'][$socialKey] = [
+                'key'     => $socialKey,
+                'compare' => 'EXISTS',
+                'type'    => 'numeric'
+            ];
+
+            $args['orderby'][$socialKey] = 'DESC';
+        }
+    }
+
+    $posts = _get_posts($args);
 
     ob_start();
+
     get_template_part_var('global/top-influencers', [
         'posts' => $posts
     ]);
+
     return ob_get_clean();
 }
 
