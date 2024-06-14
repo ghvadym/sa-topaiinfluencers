@@ -233,3 +233,13 @@ function http($url, $params = false)
     $response = curl_exec($ch);
     return json_decode($response);
 }
+
+function socials_data(): array
+{
+    return [
+        'youtube_channel_name' => 'TAI_Youtube_API',
+        'twitch_username'      => 'TAI_Twitch_API',
+        'instagram_username'   => 'TAI_Instagram_API',
+        //'tiktok_username'      => 'TAI_Tiktok_API
+    ];
+}

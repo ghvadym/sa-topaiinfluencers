@@ -55,3 +55,71 @@ function api_request(array $args = [])
 
     return json_decode($response);
 }
+
+function models_subscription_updates_control()
+{
+    $socials = socials_data();
+
+    $args = [
+        'numberposts' => -1
+    ];
+
+    if (!empty($socials)) {
+        foreach ($socials as $socialKey => $class) {
+            if (!isset($args['meta_query'])) {
+                $args['meta_query'] = [
+                    'relation' => 'OR'
+                ];
+            }
+
+            $args['meta_query'][] = [
+                'key'     => $socialKey,
+                'compare' => '!=',
+                'value'   => ''
+            ];
+        }
+    }
+
+    $posts = _get_posts($args);
+
+    if (empty($posts)) {
+        return;
+    }
+
+    $i = 0;
+
+    foreach ($posts as $post) {
+        if ($i > EVENT_COUNT_POSTS_PER_CALL) {
+            break;
+        }
+
+        $subscription_update_time = get_post_meta($post->ID, 'subscription_update_time', true);
+
+        /* If data updated recently */
+        if ($subscription_update_time && $subscription_update_time > time()) {
+            continue;
+        }
+
+        $fields = get_fields($post->ID);
+
+        foreach ($socials as $social => $className) {
+            if (!class_exists($className)) {
+                continue;
+            }
+
+            $socialName = $fields[$social] ?? '';
+
+            if (!$socialName) {
+                continue;
+            }
+
+            try {
+                $className::updateSubscribers($socialName, $post->ID);
+            } catch (Exception $exception) {}
+        }
+
+        update_post_meta($post->ID, 'subscription_update_time', time() + EVENT_TIME_TO_CHECK);
+
+        $i++;
+    }
+}

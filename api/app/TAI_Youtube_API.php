@@ -1,7 +1,7 @@
 <?php
 
 
-class TAI_Google_API
+class TAI_Youtube_API
 {
     const GOOGLE_API_CHANNEL_URL = 'https://www.googleapis.com/youtube/v3/channels/';
     const GOOGLE_API_SEARCH_URL = 'https://youtube.googleapis.com/youtube/v3/search/';
@@ -19,7 +19,7 @@ class TAI_Google_API
             return null;
         }
 
-        $channelId = TAI_Google_API::getChannelIdByName($channelName);
+        $channelId = self::getChannelIdByName($channelName);
 
         if (!$channelId) {
             return null;

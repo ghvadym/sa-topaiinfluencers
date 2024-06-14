@@ -93,3 +93,100 @@ function top_influencers_call($atts)
     ]);
     return ob_get_clean();
 }
+
+add_action('wp', 'schedules_setup');
+function schedules_setup()
+{
+    if (!wp_next_scheduled('update_models_subscribers')) {
+        wp_schedule_event(time(), 'hourly', 'update_models_subscribers');
+    }
+}
+
+add_action('update_models_subscribers', 'update_models_subscribers_call');
+function update_models_subscribers_call()
+{
+    models_subscription_updates_control();
+}
+
+add_action('switch_theme', 'theme_deactivation_hook');
+function theme_deactivation_hook()
+{
+    wp_unschedule_hook('update_models_subscribers');
+}
+
+//add_action('wp_insert_post_data', 'wp_insert_post_data_call', 99, 2);
+function wp_insert_post_data_call($postData, $postDataFull)
+{
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    $postId = $postDataFull['ID'] ?? '';
+
+    if (!$postId) {
+        return;
+    }
+
+    if (!current_user_can('edit_post', $postId)) {
+        return;
+    }
+
+    if ($postData['post_type'] !== 'post') {
+        return;
+    }
+
+    $updatesData = get_option('subscription_updates_data', []);
+    $fields = get_fields($postId);
+    $socials = socials_data();
+
+    foreach ($socials as $social => $className) {
+        if (!class_exists($className)) {
+            continue;
+        }
+
+        $acfFieldChannelObject = get_field_object('youtube_channel_name', $postId);
+        $acfFieldChannelKey = $acfFieldChannelObject['key'] ?? '';
+
+        if (!$acfFieldChannelKey) {
+            return;
+        }
+
+        $socialNameOld = $fields[$social] ?? '';
+        $socialNameNew = $postData['acf'][$acfFieldChannelKey] ?? '';
+
+        if (!$socialNameNew) {
+            $acfFieldSubscriptionsObject = get_field_object('youtube_subscribers', $postId);
+            $acfFieldSubscriptionsKey = $acfFieldSubscriptionsObject['key'] ?? '';
+
+            if ($acfFieldSubscriptionsKey) {
+                $postData['acf'][$acfFieldSubscriptionsKey] = '';
+            }
+
+            continue;
+        }
+
+        if (trim($socialNameOld) === trim($socialNameNew)) {
+            continue;
+        }
+
+        $subscribers = '';
+
+        try {
+            $subscribers = $className::updateSubscribers($socialNameNew, $postId);
+        } catch (Exception $exception) {}
+
+        if (!$subscribers) {
+            continue;
+        }
+
+        if (empty($updatesData)) {
+            $updatesData = [
+                $postId => time() + EVENT_TIME_TO_CHECK
+            ];
+        } else {
+            $updatesData[$postId] = time() + EVENT_TIME_TO_CHECK;
+        }
+
+        update_post_meta($postId, 'subscription_update_time', time() + EVENT_TIME_TO_CHECK);
+    }
+}
