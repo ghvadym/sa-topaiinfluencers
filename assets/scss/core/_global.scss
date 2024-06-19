@@ -460,6 +460,7 @@ body.single-post {
 }
 
 .thumbnail {
+    display: block;
     aspect-ratio: 2.6 / 1;
     overflow: hidden;
     border-radius: 12px;

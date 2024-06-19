@@ -19,5 +19,8 @@ get_template_part_var('home/socials', [
 get_template_part_var('home/influencers');
 get_template_part_var('home/vtubers');
 get_template_part_var('home/topai');
+get_template_part_var('global/faq', [
+    'faq_list' => $fields['faq'] ?? []
+]);
 
 get_footer();

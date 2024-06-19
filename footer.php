@@ -1,7 +1,9 @@
 <?php
 wp_footer();
-if (is_home() || is_front_page() || is_archive() || is_single()) {
-    get_template_part_var('global/faq');
+if (is_archive()) {
+    get_template_part_var('global/faq', [
+        'faq_list' => get_field('faq', 'options')
+    ]);
 }
 ?>
 

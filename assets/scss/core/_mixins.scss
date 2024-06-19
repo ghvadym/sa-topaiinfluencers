@@ -54,6 +54,16 @@
 }
 
 @mixin text-block() {
+    h1 {
+        font-size: 45px;
+        line-height: 50px;
+
+        @include response-max($mobile) {
+            font-size: 35px;
+            line-height: 40px;
+        }
+    }
+
     h2 {
         margin-bottom: 16px;
 
@@ -99,10 +109,6 @@
         width: auto;
         object-fit: contain;
         border-radius: 12px;
-    }
-
-    figure {
-        margin: 48px 0;
     }
 
     ol, ul {
@@ -151,11 +157,27 @@
         }
     }
 
-    @include response-max($mobile) {
-        iframe {
+    iframe {
+        margin: 30px auto !important;
+
+        @include response-max($mobile) {
             width: 100% !important;
             max-width: 100% !important;
             min-width: 100% !important;
+        }
+    }
+
+    .wp-block-embed__wrapper {
+        display: flex;
+
+        blockquote {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+
+        & > * {
+            margin-left: auto !important;
+            margin-right: auto !important;
         }
     }
 }

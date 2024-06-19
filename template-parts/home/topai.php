@@ -1,7 +1,7 @@
 <?php
 $posts = _get_posts([
-    'numberposts'   => wp_is_mobile() ? 4 : 8,
-    'category_name' => 'best-ai-models'
+    'post_type'   => 'blog',
+    'numberposts' => wp_is_mobile() ? 4 : 8
 ]);
 
 if (empty($posts)) {

@@ -115,6 +115,11 @@
         @include text-block;
     }
 
+    h3 {
+        font-family: 'Bruno Ace SC', sans-serif !important;
+        margin-top: 0 !important;
+    }
+
     &.card {
         margin: 0 32px 32px 0;
         width: 100%;

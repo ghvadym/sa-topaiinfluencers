@@ -1,19 +1,30 @@
 <?php
 get_header();
-$taxonomy = get_queried_object();
+$term = get_queried_object();
 
 $posts = _get_posts([
-    'category_name' => $taxonomy->slug
+    'category_name' => $term->slug
 ]);
 
-$postsInfo = wp_count_posts();
-$allPostsCount = $postsInfo->publish ?? 0;
+$allPostsCount = count_posts();
+
+$postWithCategoriesIds = get_posts([
+    'posts_per_page' => -1,
+    'tax_query'      => [
+        [
+            'taxonomy' => 'category',
+            'field'    => 'term_id',
+            'terms'    => $term->term_id,
+        ],
+    ],
+    'fields'         => 'ids'
+]);
 ?>
 
-<section class="archive">
+    <section class="archive">
     <div class="container">
         <h1 class="title">
-            <?php echo $taxonomy->name; ?>
+            <?php echo $term->name; ?>
         </h1>
 
         <?php if (empty($posts)) { ?>
@@ -29,7 +40,7 @@ $allPostsCount = $postsInfo->publish ?? 0;
                                 <?php get_template_part_var('global/select-terms', [
                                     'name'  => 'medias',
                                     'title' => __('Social media', DOMAIN),
-                                    'terms' => _get_terms('social_media')
+                                    'terms' => wp_get_object_terms($postWithCategoriesIds, 'social_media')
                                 ]); ?>
                             </div>
                             <div class="archive__filter_item">
@@ -53,14 +64,14 @@ $allPostsCount = $postsInfo->publish ?? 0;
                                 <?php get_template_part_var('global/select-terms', [
                                     'name'  => 'niches',
                                     'title' => __('Niches', DOMAIN),
-                                    'terms' => _get_terms('niche')
+                                    'terms' => wp_get_object_terms($postWithCategoriesIds, 'niche')
                                 ]); ?>
                             </div>
                             <div class="archive__filter_item">
                                 <?php get_template_part_var('global/select-terms', [
                                     'name'  => 'languages',
                                     'title' => __('Languages', DOMAIN),
-                                    'terms' => _get_terms('language')
+                                    'terms' => wp_get_object_terms($postWithCategoriesIds, 'language')
                                 ]); ?>
                             </div>
                             <div class="archive__filter_item">
@@ -69,7 +80,7 @@ $allPostsCount = $postsInfo->publish ?? 0;
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="term" value="<?php echo $taxonomy->term_id; ?>">
+                        <input type="hidden" name="term" value="<?php echo $term->term_id; ?>">
                     </div>
                 </form>
                 <div class="archive__posts_wrap">
@@ -85,7 +96,7 @@ $allPostsCount = $postsInfo->publish ?? 0;
                     <?php if ($allPostsCount > POSTS_PER_PAGE) { ?>
                         <div class="articles__btn">
                             <span id="articles_load" class="btn" data-page="1">
-                                <?php _e('Lazy load', DOMAIN); ?>
+                                <?php _e('View More', DOMAIN); ?>
                             </span>
                         </div>
                     <?php } ?>

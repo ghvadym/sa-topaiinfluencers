@@ -5,6 +5,13 @@ if (empty($post)) {
 
 $fields = get_fields($post->ID);
 $socials = socials();
+
+if (get_field('use_options_get_in_touch_link', 'options')) {
+    $getInTouchLink = get_field('get_in_touch_link', 'options');
+} else {
+    $getInTouchLink = get_field('get_in_touch_link', $post->ID);
+}
+
 ?>
 
 <div class="card__img">
@@ -43,7 +50,11 @@ $socials = socials();
             <?php } ?>
         <?php } ?>
     </div>
-    <div class="card__social_btn btn">
-        <?php _e('Get in touch', DOMAIN); ?>
-    </div>
+    <?php if (!empty($getInTouchLink) && !empty($getInTouchLink['url'])) { ?>
+        <a href="<?php echo esc_url($getInTouchLink['url'] ?? '') ?>"
+           target="<?php echo esc_url($getInTouchLink['target'] ?? '_self') ?>"
+           class="card__social_btn btn">
+            <?php echo esc_html($getInTouchLink['title'] ?: __('Get In Touch', DOMAIN)); ?>
+        </a>
+    <?php } ?>
 </div>

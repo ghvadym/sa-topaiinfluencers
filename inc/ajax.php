@@ -103,7 +103,7 @@ function archive_filter()
             ]);
         }
     } else {
-        echo '<h3>' . __('Posts not found', DOMAIN) . '</h3>';
+        echo '<h3 class="no-posts-message">' . __('Posts not found', DOMAIN) . '</h3>';
     }
 
     $html = ob_get_contents();
@@ -113,6 +113,7 @@ function archive_filter()
         'posts'     => $html,
         'args'      => $args,
         'max_pages' => $posts->max_num_pages,
-        'append'    => $page > 1
+        'append'    => $page > 1,
+        'count'     => $posts->found_posts
     ]);
 }

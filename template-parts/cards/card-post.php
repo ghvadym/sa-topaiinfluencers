@@ -4,9 +4,6 @@ if (empty($post)) {
 }
 
 $thumbnail = get_thumbnail_html($post->ID, $post->post_title);
-$author_id = $post->post_author;
-$author_name = get_the_author_meta('display_name', $author_id);
-$author_avatar = get_avatar_url($author_id);
 ?>
 
 <div class="article<?php echo !empty($full_card_info) ? ' full-card' : ''; ?><?php echo !empty($slider) ? ' swiper-slide' : ''; ?>">
@@ -29,21 +26,9 @@ $author_avatar = get_avatar_url($author_id);
             <?php if (!empty($full_card_info)) { ?>
                 <?php if ($post->post_content) { ?>
                     <div class="article__text">
-                        <?php echo wp_trim_words($post->post_content, 25, '...') ?>
+                        <?php echo wp_trim_words($post->post_content, 50, '...') ?>
                     </div>
                 <?php } ?>
-                <div class="article__author">
-                    <?php if ($author_avatar) { ?>
-                        <img src="<?php echo $author_avatar; ?>"
-                             alt="<?php echo esc_html($author_name); ?>">
-                    <?php } ?>
-                    <span>
-                        <?php echo esc_html($author_name); ?>
-                    </span>
-                </div>
-                <div class="article__date">
-                    <?php echo date('M d, Y', strtotime($post->post_date)); ?>
-                </div>
             <?php } ?>
         </div>
     </div>

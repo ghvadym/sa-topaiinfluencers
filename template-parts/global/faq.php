@@ -1,6 +1,4 @@
 <?php
-$faq_list = get_field('faq', 'options');
-
 if (empty($faq_list)) {
     return;
 }

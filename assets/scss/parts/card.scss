@@ -3,6 +3,11 @@
     grid-column-gap: 32px;
     grid-row-gap: 32px;
 
+    .no-posts-message {
+        grid-column: span 4;
+        margin: 30px 0;
+    }
+
     @include response-min($mobile + 1) {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -43,11 +48,6 @@
 
         @include response-max($mobile) {
             aspect-ratio: 9 / 10;
-        }
-
-        img {
-            object-position: left;
-            transform: scale(1.5);
         }
     }
 
@@ -93,9 +93,8 @@
 .article__socials {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: flex-end;
-    gap: 10px;
+    gap: 25px;
     position: absolute;
     right: 0;
     top: 0;
@@ -106,6 +105,7 @@
     visibility: hidden;
     transition: $transition;
     padding-right: 12px;
+    padding-top: 17px;
     background-color: rgba(0,0,0,0.4);
     backdrop-filter: blur(2px);
 }
@@ -163,7 +163,7 @@
     font-weight: 300;
     line-height: 19.2px;
     color: $color-font-secondary;
-    @include line-break(4);
+    @include line-break(7);
 }
 
 .article__author {

@@ -104,7 +104,8 @@ function _get_field($field, string $class = '', string $tag = 'div')
 
 function is_my_ip(): bool
 {
-    return str_contains(get_ip(), '188.163.4.63');
+    //return str_contains(get_ip(), '188.163.4.63');
+    return str_contains(get_ip(), '146.158.58.39');
 }
 
 function get_ip()
@@ -250,7 +251,8 @@ function socials(): array
         'instagram' => 'instagram_subscribers',
         'twitch'    => 'twitch_subscribers',
         'youtube'   => 'youtube_subscribers',
-        //'tiktok'    => 'tiktok_subscribers'
+        'tiktok'    => 'tiktok_subscribers',
+        'X'         => 'x_subscribers'
     ];
 }
 

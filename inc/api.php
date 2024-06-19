@@ -7,6 +7,7 @@ use TikTok\Request\Params;
 
 function send_request_x_api(string $xName = '')
 {
+    $appId = '1800167080425066496';
     $apiKey = 'KOgYtOBxeo6Z9Gwo9WQOJMb4I';
     $apiKeySecret = 'DqJi3Y4lefH6dfRkaMbZJ8l1wPsRgwASJnrdb2mTbXey7MtiK5';
     $bearerToken = 'AAAAAAAAAAAAAAAAAAAAAHLwuAEAAAAAjX7tgXSoANvb4Q%2Fy5kkeh%2BB0Y24%3DS597sNYUHsNzFGcwOaMGwg5oNNAo3Mogsy09PMSrtNcRHxlDJE';

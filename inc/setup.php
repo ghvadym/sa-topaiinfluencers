@@ -1,7 +1,6 @@
 <?php
 
 add_filter('show_admin_bar', '__return_false');
-add_filter('gutenberg_use_widgets_block_editor', '__return_false');
 add_filter('use_widgets_block_editor', '__return_false');
 
 add_action('wp_enqueue_scripts', 'wp_enqueue_scripts_call');
@@ -84,23 +83,17 @@ function top_influencers_call($atts)
         'numberposts' => $atts['count']
     ];
 
-    $socials = socials();
+    $influencers = get_field('influencers');
 
-    if (!empty($socials)) {
-        foreach ($socials as $socialKey) {
-            if (!isset($args['meta_query'])) {
-                $args['meta_query'] = [
-                    'relation' => 'AND'
-                ];
+    if (!empty($influencers)) {
+        $args['post__in'] = $influencers;
+    } else {
+        $socials = socials();
+
+        if (!empty($socials)) {
+            foreach ($socials as $socialKey) {
+                $args['category_name'] = 'best-ai-models';
             }
-
-            $args['meta_query'][$socialKey] = [
-                'key'     => $socialKey,
-                'compare' => 'EXISTS',
-                'type'    => 'numeric'
-            ];
-
-            $args['orderby'][$socialKey] = 'DESC';
         }
     }
 

@@ -123,3 +123,17 @@ function models_subscription_updates_control()
         $i++;
     }
 }
+
+function count_posts(string $term = ''): array
+{
+    $args = [
+        'numberposts' => -1,
+        'fields'      => 'ids'
+    ];
+
+    if ($term) {
+        $args['category_name'] = $term;
+    }
+
+    return _get_posts($args);
+}
