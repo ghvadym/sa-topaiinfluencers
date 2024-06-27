@@ -67,7 +67,7 @@
             }
 
             &.partner {
-                @include response-min($header-responsive + 1) {
+                @include response-min($header-responsive) {
                     margin-left: 50px;
                 }
 
@@ -138,7 +138,7 @@
 }
 
 .header__burger {
-    @include response-min($header-responsive + 1) {
+    @include response-min($header-responsive) {
         display: none;
     }
 

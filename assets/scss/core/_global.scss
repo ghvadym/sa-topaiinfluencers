@@ -105,10 +105,10 @@ h3,
 }
 
 h1 {
-    font-size: 70px;
-    line-height: 77px;
-    letter-spacing: 0.02em;
-    margin-bottom: 35px;
+    font-size: 54px;
+    line-height: 60px;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
 
     @include response-max($mobile) {
         font-size: 32px;

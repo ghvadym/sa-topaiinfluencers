@@ -28,9 +28,9 @@
 }
 
 .card__title {
-    font-size: 36px;
+    font-size: 36px !important;
     font-weight: 400;
-    line-height: 43px;
+    line-height: 43px !important;
 }
 
 .card__socials {
@@ -135,6 +135,18 @@
 
         @include response-max($laptop-landscape - 1) {
             margin: 0 0 80px;
+        }
+    }
+}
+
+.single_blog {
+    h1 {
+        font-size: 54px;
+        line-height: 60px;
+
+        @include response-max($laptop-portrait) {
+            font-size: 32px;
+            line-height: 35px;
         }
     }
 }

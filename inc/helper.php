@@ -252,7 +252,8 @@ function socials(): array
         'twitch'    => 'twitch_subscribers',
         'youtube'   => 'youtube_subscribers',
         'tiktok'    => 'tiktok_subscribers',
-        'X'         => 'x_subscribers'
+        'X'         => 'x_subscribers',
+        'F'         => 'fanvue_subscribers'
     ];
 }
 

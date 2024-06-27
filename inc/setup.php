@@ -108,11 +108,22 @@ function top_influencers_call($atts)
     return ob_get_clean();
 }
 
+add_filter('cron_schedules', 'cron_schedules_call');
+function cron_schedules_call($schedules)
+{
+    $schedules['ten_min'] = [
+        'interval' => MINUTE_IN_SECONDS * 10,
+        'display'  => 'Once every 10 minutes',
+    ];
+
+    return $schedules;
+}
+
 add_action('wp', 'schedules_setup');
 function schedules_setup()
 {
     if (!wp_next_scheduled('update_models_subscribers')) {
-        wp_schedule_event(time(), 'hourly', 'update_models_subscribers');
+        wp_schedule_event(time(), 'ten_min', 'update_models_subscribers');
     }
 }
 

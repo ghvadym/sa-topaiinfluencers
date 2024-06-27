@@ -13,6 +13,9 @@
         li {
             a {
                 padding: 12px 24px;
+                font-family: 'Bruno Ace SC', sans-serif;
+                letter-spacing: 2px;
+                line-height: 18px;
 
                 @include response-min($desktop) {
                     &:hover {
@@ -78,7 +81,7 @@
 }
 
 .socials {
-    margin: 0 -7px;
+    margin: 0 -6px;
     display: flex;
 
     @include response-min($laptop-landscape - 1) {
@@ -96,7 +99,7 @@
 }
 
 .social__item {
-    margin: 0 7px;
+    margin: 0 6px;
     width: 27px;
     height: 27px;
     position: relative;
