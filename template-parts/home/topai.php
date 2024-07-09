@@ -1,4 +1,5 @@
 <?php
+
 $posts = _get_posts([
     'post_type'   => 'blog',
     'numberposts' => wp_is_mobile() ? 4 : 8
@@ -13,7 +14,7 @@ if (empty($posts)) {
 <section class="influencers_section">
     <div class="container">
         <h2 class="title">
-            <?php _e('Top AI Influencers in Niches', DOMAIN); ?>
+            <?php _e('Blog', DOMAIN); ?>
         </h2>
         <div class="articles influencers__list">
             <?php foreach ($posts as $post) {
@@ -24,9 +25,9 @@ if (empty($posts)) {
             } ?>
         </div>
         <div class="articles__btn">
-            <span class="btn">
+            <a href="<?php echo get_post_type_archive_link('blog'); ?>" class="btn">
                 <?php _e('View More Posts', DOMAIN); ?>
-            </span>
+            </a>
         </div>
     </div>
 </section>

@@ -1,7 +1,10 @@
 <?php
+
+$categoryName = 'ai-influencers-list';
+
 $posts = _get_posts([
     'numberposts'   => wp_is_mobile() ? 4 : 8,
-    'category_name' => 'ai-influencers'
+    'category_name' => $categoryName
 ]);
 
 if (empty($posts)) {
@@ -23,9 +26,9 @@ if (empty($posts)) {
             } ?>
         </div>
         <div class="articles__btn">
-            <span class="btn">
+            <a href="<?php echo home_url($categoryName.DIRECTORY_SEPARATOR); ?>" class="btn">
                 <?php _e('View All Influencers', DOMAIN); ?>
-            </span>
+            </a>
         </div>
     </div>
 </section>

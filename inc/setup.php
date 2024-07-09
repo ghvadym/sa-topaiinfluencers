@@ -88,13 +88,7 @@ function top_influencers_call($atts)
     if (!empty($influencers)) {
         $args['post__in'] = $influencers;
     } else {
-        $socials = socials();
-
-        if (!empty($socials)) {
-            foreach ($socials as $socialKey) {
-                $args['category_name'] = 'best-ai-models';
-            }
-        }
+        $args['category_name'] = 'best-ai-models';
     }
 
     $posts = _get_posts($args);

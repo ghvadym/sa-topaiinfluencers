@@ -60,6 +60,7 @@ $postWithCategoriesIds = get_posts([
                                     ]
                                 ]); ?>
                             </div>
+                            <?php /* ?>
                             <div class="archive__filter_item">
                                 <?php get_template_part_var('global/select-terms', [
                                     'name'  => 'niches',
@@ -74,6 +75,7 @@ $postWithCategoriesIds = get_posts([
                                     'terms' => wp_get_object_terms($postWithCategoriesIds, 'language')
                                 ]); ?>
                             </div>
+                            <?php */ ?>
                             <div class="archive__filter_item">
                                 <div class="archive__filter_reset">
                                     <img src="<?php img_url('Close.svg'); ?>" alt="">

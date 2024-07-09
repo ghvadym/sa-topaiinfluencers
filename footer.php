@@ -1,6 +1,14 @@
 <?php
 wp_footer();
-if (is_archive()) {
+if (is_category()) {
+    $term = get_queried_object();
+    if (!empty($term->term_id)) {
+        get_template_part_var('global/faq', [
+            'faq_list' => get_field('faq', 'term_'.$term->term_id)
+        ]);
+    }
+}
+if (is_post_type_archive('blog')) {
     get_template_part_var('global/faq', [
         'faq_list' => get_field('faq', 'options')
     ]);
