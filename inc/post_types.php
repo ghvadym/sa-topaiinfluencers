@@ -7,6 +7,9 @@ function create_post_types()
     create_post_type('blog', [
         'menu_position' => 9,
         'show_in_rest'  => true,
+        'rewrite'       => [
+            'slug' => ''
+        ],
         'labels'        => [
             'name'          => __('Blog', DOMAIN),
             'singular_name' => __('Blog', DOMAIN),

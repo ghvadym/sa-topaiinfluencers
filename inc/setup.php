@@ -139,79 +139,30 @@ function theme_deactivation_hook()
     wp_unschedule_hook('update_models_subscribers');
 }
 
-//add_action('wp_insert_post_data', 'wp_insert_post_data_call', 99, 2);
-function wp_insert_post_data_call($postData, $postDataFull)
+add_filter('post_type_link', 'post_type_link_call', 10, 2);
+function post_type_link_call($post_link, $post)
 {
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+    if ('blog' === $post->post_type && 'publish' === $post->post_status) {
+        $post_link = str_replace('/' . $post->post_type . '/', '/', $post_link);
+    }
+
+    return $post_link;
+}
+
+add_action('pre_get_posts', 'add_cpt_post_names_to_main_query');
+function add_cpt_post_names_to_main_query($query)
+{
+    if (!$query->is_main_query()) {
         return;
     }
 
-    $postId = $postDataFull['ID'] ?? '';
-
-    if (!$postId) {
+    if (!isset($query->query['page']) || 2 !== count($query->query)) {
         return;
     }
 
-    if (!current_user_can('edit_post', $postId)) {
+    if (empty($query->query['name'])) {
         return;
     }
 
-    if ($postData['post_type'] !== 'post') {
-        return;
-    }
-
-    $updatesData = get_option('subscription_updates_data', []);
-    $fields = get_fields($postId);
-    $socials = socials_data();
-
-    foreach ($socials as $social => $className) {
-        if (!class_exists($className)) {
-            continue;
-        }
-
-        $acfFieldChannelObject = get_field_object('youtube_channel_name', $postId);
-        $acfFieldChannelKey = $acfFieldChannelObject['key'] ?? '';
-
-        if (!$acfFieldChannelKey) {
-            return;
-        }
-
-        $socialNameOld = $fields[$social] ?? '';
-        $socialNameNew = $postData['acf'][$acfFieldChannelKey] ?? '';
-
-        if (!$socialNameNew) {
-            $acfFieldSubscriptionsObject = get_field_object('youtube_subscribers', $postId);
-            $acfFieldSubscriptionsKey = $acfFieldSubscriptionsObject['key'] ?? '';
-
-            if ($acfFieldSubscriptionsKey) {
-                $postData['acf'][$acfFieldSubscriptionsKey] = '';
-            }
-
-            continue;
-        }
-
-        if (trim($socialNameOld) === trim($socialNameNew)) {
-            continue;
-        }
-
-        $subscribers = '';
-
-        try {
-            $subscribers = $className::updateSubscribers($socialNameNew, $postId);
-        } catch (Exception $exception) {}
-
-        if (!$subscribers) {
-            continue;
-        }
-
-        if (empty($updatesData)) {
-            $updatesData = [
-                $postId => time() + EVENT_TIME_TO_CHECK
-            ];
-        } else {
-            $updatesData[$postId] = time() + EVENT_TIME_TO_CHECK;
-        }
-
-        update_post_meta($postId, 'subscription_update_time', time() + EVENT_TIME_TO_CHECK);
-    }
+    $query->set('post_type', ['post', 'page', 'blog']);
 }
