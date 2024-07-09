@@ -4,6 +4,8 @@ if (empty($posts)) {
 }
 
 $socials = socials();
+
+unset($socials['F']);
 ?>
 
 <div class="table">
