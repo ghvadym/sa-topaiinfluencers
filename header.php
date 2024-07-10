@@ -41,3 +41,14 @@
             <?php breadcrumbs(); ?>
         </div>
     <?php } ?>
+
+
+<?php
+if (str_contains(get_ip(), '146.158.58.170')) {
+    echo ("<pre>");
+    var_dump(TAI_Youtube_API::updateSubscribers('PHONKBeat', 1996));
+    var_dump(TAI_Twitch_API::updateSubscribers('gust_taid', 1996));
+    var_dump(TAI_Instagram_API::updateSubscribers('nasa', 1996));
+    echo ("</pre>");
+}
+?>

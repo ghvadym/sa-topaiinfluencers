@@ -1,7 +1,8 @@
 <?php
 
 register_ajax([
-    'archive_filter'
+    'archive_filter',
+    'update_subscribers'
 ]);
 
 function archive_filter()
@@ -116,4 +117,47 @@ function archive_filter()
         'append'    => $page > 1,
         'count'     => $posts->found_posts
     ]);
+}
+
+
+function update_subscribers()
+{
+    check_ajax_referer('admin-nonce', 'nonce');
+
+    $data = sanitize_post($_POST);
+
+    $socials = socials_data();
+    if (empty($socials)) {
+        wp_send_json_error('No socials data');
+        return;
+    }
+
+    $postId = $data['post_id'] ?? '';
+
+    if (!$postId) {
+        wp_send_json_error('Post ID field is empty');
+        return;
+    }
+
+    $fields = get_fields($postId);
+
+    foreach ($socials as $social => $className) {
+        if (!class_exists($className)) {
+            continue;
+        }
+
+        $socialName = $fields[$social] ?? '';
+
+        if (!$socialName) {
+            continue;
+        }
+
+        try {
+            $className::updateSubscribers($socialName, $postId);
+        } catch (Exception $exception) {}
+    }
+
+    update_post_meta($postId, 'subscription_update_time', time() + EVENT_TIME_TO_CHECK);
+
+    wp_send_json_success();
 }

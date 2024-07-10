@@ -30,6 +30,21 @@ function wp_enqueue_scripts_call()
     }
 }
 
+add_action('admin_enqueue_scripts', 'admin_scripts_call');
+function admin_scripts_call()
+{
+    $post = get_post();
+    if (!empty($post) && $post->post_type === 'post') {
+        wp_enqueue_style('post-custom-styles', TAI_THEME_URL . '/dest/css/admin-style.css');
+        wp_enqueue_script('post-custom-scripts', TAI_THEME_URL . '/dest/js/admin.js');
+    }
+
+    wp_localize_script('post-custom-scripts', 'admintaiajax', [
+        'ajaxurl' => admin_url('admin-ajax.php'),
+        'nonce'   => wp_create_nonce('admin-nonce')
+    ]);
+}
+
 add_action('after_setup_theme', 'after_setup_theme_call');
 function after_setup_theme_call()
 {
@@ -159,4 +174,27 @@ function add_cpt_post_names_to_main_query($query)
     }
 
     $query->set('post_type', ['post', 'page', 'blog']);
+}
+
+add_action('add_meta_boxes', 'register_meta_boxes_call');
+function register_meta_boxes_call()
+{
+    add_meta_box(
+        'subscribers-fields',
+        __('Social Subscribers', DOMAIN),
+        'subscribers_metabox_call',
+        'post',
+        'side',
+        'high'
+    );
+}
+
+function subscribers_metabox_call($post)
+{
+    echo sprintf(
+        '<small class="get_subscribers_text">%1$s</small><div id="subscribers-get-by-api" class="components-button is-primary get_subscribers_btn" data-id="%2$s">%3$s</div>',
+        __('Make sure all the usernames for socials filled.', DOMAIN),
+        $post->ID,
+        __('Get Subscribers By API', DOMAIN)
+    );
 }

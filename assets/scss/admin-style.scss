@@ -1,0 +1,54 @@
+.get_subscribers_btn {
+    background-color: #6202F3 !important;
+    font-size: 16px;
+    transition: 0.3s ease;
+    text-align: center;
+    display: block;
+    height: auto;
+    padding: 10px 15px;
+    position: relative;
+
+    &.progress {
+
+    }
+
+    &:hover {
+        background-color: #D600E4 !important;
+    }
+}
+
+.get_subscribers_text {
+    font-size: 14px;
+    line-height: 1.2;
+    display: block;
+    margin-bottom: 10px;
+}
+
+._spinner {
+    pointer-events: none;
+    position: relative;
+}
+
+._spinner:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(1px);
+}
+
+._spinner:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: url('../img/preloader.gif') center / contain no-repeat;
+    width: 25px;
+    height: 25px;
+    z-index: 100;
+}
