@@ -1,8 +1,8 @@
 [id=footer] {
-    margin: 20px 0 100px 0;
+    margin-bottom: 100px;
 
     @include response-max($laptop-landscape) {
-        margin: 32px 0;
+        margin: 0 0 32px;
     }
 
     * {
@@ -25,6 +25,11 @@
                         -webkit-text-fill-color: transparent;
                     }
                 }
+
+                @include response-max($mobile) {
+                    padding-left: 0;
+                    padding-right: 0;
+                }
             }
         }
     }
@@ -35,6 +40,10 @@
     background: linear-gradient(90deg, rgba(27, 6, 66, 1) 15%, rgba(16, 10, 28, 1) 51%, rgba(51, 7, 54, 1) 89%);
     border-radius: 20px;
     padding: 32px;
+
+    @include response-max($mobile) {
+        padding: 24px;
+    }
 }
 
 .footer__row {
@@ -60,12 +69,13 @@
     }
 
     @include response-max($laptop-landscape) {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+
         &:not(:nth-child(2)):not(:last-child) {
             margin-bottom: 32px;
         }
-
-        display: flex;
-        justify-content: center;
     }
 }
 

@@ -65,21 +65,33 @@
     }
 
     h2 {
-        margin-bottom: 16px;
+        margin: 32px 0 16px;
 
         @include response-max($mobile) {
             font-size: 22px;
             line-height: 24.2px;
         }
+
+        &:first-child {
+            margin-top: 0;
+        }
     }
 
     h3 {
         margin: 32px 0 16px;
+
+        &:first-child {
+            margin-top: 0;
+        }
     }
 
     h4, h5, h6 {
         font-family: 'Hind', sans-serif;
         font-weight: 500;
+
+        &:first-child {
+            margin-top: 0;
+        }
     }
 
     p {
@@ -143,8 +155,8 @@
 
             &:after {
                 left: 3px;
-                width: 6px;
-                height: 6px;
+                width: 7px;
+                height: 7px;
                 background-color: #fff;
             }
 
@@ -155,6 +167,10 @@
                 border: 1px solid #fff;
             }
         }
+    }
+
+    .wp-block-image {
+        margin-bottom: 24px;
     }
 
     iframe {
@@ -178,6 +194,11 @@
         & > * {
             margin-left: auto !important;
             margin-right: auto !important;
+
+            @include response-max($mobile) {
+                max-width: 100% !important;
+                min-width: 100% !important;
+            }
         }
     }
 

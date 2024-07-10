@@ -40,6 +40,10 @@
     white-space: nowrap;
     letter-spacing: 1px;
     margin-top: 2px;
+
+    @include response-max($mobile) {
+        font-size: 18px;
+    }
 }
 
 .select__list {

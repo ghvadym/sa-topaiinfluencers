@@ -10,7 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Hind:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <title><?php echo custom_get_page_title(); ?></title>
+    <title><?php wp_title( '|', true, 'right' ); ?></title>
+    <script defer data-domain="topaiinfluencers.io" src="https://plausible.io/js/script.js"></script>
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
@@ -41,14 +42,3 @@
             <?php breadcrumbs(); ?>
         </div>
     <?php } ?>
-
-
-<?php
-if (str_contains(get_ip(), '146.158.58.170')) {
-    echo ("<pre>");
-    var_dump(TAI_Youtube_API::updateSubscribers('PHONKBeat', 1996));
-    var_dump(TAI_Twitch_API::updateSubscribers('gust_taid', 1996));
-    var_dump(TAI_Instagram_API::updateSubscribers('nasa', 1996));
-    echo ("</pre>");
-}
-?>

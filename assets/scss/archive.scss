@@ -34,6 +34,10 @@
 
 .archive__filter_item {
     margin-right: 16px;
+
+    @include response-max($mobile) {
+        margin-right: 8px;
+    }
 }
 
 .archive__filter_reset {

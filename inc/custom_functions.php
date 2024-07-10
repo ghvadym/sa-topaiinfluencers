@@ -15,7 +15,7 @@ function custom_get_page_title(): string
         $title = ucfirst($postData->name) . ' - ' . $blogName;
     } else if (is_home() || is_front_page()) {
         $title = get_bloginfo('name');
-    }else {
+    } else {
         $title = get_the_title() . ' - ' . $blogName;;
     }
 

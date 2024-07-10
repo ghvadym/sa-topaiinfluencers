@@ -20,7 +20,7 @@ $hero_bg_mobile = !empty($fields['hero_banner_mob']) ? wp_get_attachment_image_u
         <div class="hero__bg">
             <?php if (wp_is_mobile()) { ?>
                 <?php if ($hero_bg_mobile) { ?>
-                    <img src="<?php echo esc_url($hero_bg_mobile); ?>" alt="Hero Image">
+                    <img src="<?php echo esc_url($hero_bg_mobile); ?>" alt="Hero Image mobile">
                 <?php } ?>
             <?php } else { ?>
                 <?php if ($hero_bg_url) { ?>

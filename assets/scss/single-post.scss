@@ -9,9 +9,11 @@
     margin-bottom: 24px;
 
     img {
-        object-position: left;
-        transform: scale(1.5);
         object-fit: cover;
+    }
+
+    @include response-max($mobile) {
+        margin-bottom: 12px;
     }
 }
 
@@ -28,9 +30,9 @@
 }
 
 .card__title {
-    font-size: 36px !important;
+    font-size: 28px !important;
     font-weight: 400;
-    line-height: 43px !important;
+    line-height: 1.4 !important;
 }
 
 .card__socials {
@@ -101,6 +103,10 @@
 
     &:not(:last-child) {
         margin-bottom: 40px;
+
+        @include response-max($mobile) {
+            margin-bottom: 16px;
+        }
     }
 
     @include response-min($laptop-landscape) {
@@ -117,7 +123,6 @@
 
     h3 {
         font-family: 'Bruno Ace SC', sans-serif !important;
-        margin-top: 0 !important;
     }
 
     &.card {
@@ -134,7 +139,7 @@
         }
 
         @include response-max($laptop-landscape - 1) {
-            margin: 0 0 80px;
+            margin: 0 0 64px;
         }
     }
 }

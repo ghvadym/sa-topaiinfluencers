@@ -16,7 +16,7 @@
     }
 
     @include response-max($mobile) {
-        height: 65vh;
+        height: calc(100vh - 70px);
 
         img {
             object-fit: cover;
@@ -103,6 +103,12 @@
 
 .socials_section {
     position: relative;
+
+    @include response-max($laptop-landscape) {
+        & + .influencers_section {
+            padding-top: 64px;
+        }
+    }
 
     @include response-max($mobile) {
         margin-top: -56px;
