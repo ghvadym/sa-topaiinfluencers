@@ -6,6 +6,9 @@ function custom_sidebar()
 {
     register_custom_sidebar('Footer Nav 1', 'footer-nav-1');
     register_custom_sidebar('Footer Nav 2', 'footer-nav-2');
+    register_custom_sidebar('Footer Nav 3', 'footer-nav-3');
+    register_custom_sidebar('Footer Nav 4', 'footer-nav-4');
+    register_custom_sidebar('Footer Nav 5', 'footer-nav-5');
 }
 
 function register_custom_sidebar($title, $slug)

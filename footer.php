@@ -13,6 +13,8 @@ if (is_post_type_archive('blog')) {
         'faq_list' => get_field('faq', 'options')
     ]);
 }
+
+$socials = get_field('socials', 'options');
 ?>
 
 </main>
@@ -39,9 +41,7 @@ if (is_post_type_archive('blog')) {
                     'Footer nav 1',
                     'Footer nav 2',
                 ]); ?>
-                <?php
-                $socials = get_field('socials', 'options');
-                if (!empty($socials)) { ?>
+                <?php if (!empty($socials)) { ?>
                     <div class="footer__col">
                         <div class="socials">
                             <?php foreach ($socials as $social) {
@@ -61,6 +61,13 @@ if (is_post_type_archive('blog')) {
                         </div>
                     </div>
                 <?php } ?>
+            </div>
+            <div class="footer__row">
+                <?php get_widgets([
+                    'Footer nav 3',
+                    'Footer nav 4',
+                    'Footer nav 5',
+                ]); ?>
             </div>
             <div class="footer__copyright">
                 <?php echo sprintf(

@@ -12,6 +12,16 @@
                 slidesPerView: 'auto'
             });
         }
+
+        if (!isDesktop) {
+            const footerTitle = $('.footer__title');
+            if (footerTitle.length) {
+                $(document).on('click', '.footer__title', function () {
+                    $(this).toggleClass('show_menu');
+                    $(this).next().slideToggle();
+                });
+            }
+        }
         
         if ($(window).width() < 1250) {
             const headerMenu = $('#header');
