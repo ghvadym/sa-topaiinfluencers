@@ -249,11 +249,11 @@ function socials(): array
 {
     return [
         'instagram' => 'instagram_subscribers',
-        'twitch'    => 'twitch_subscribers',
-        'youtube'   => 'youtube_subscribers',
+        'F'         => 'fanvue_subscribers',
         'tiktok'    => 'tiktok_subscribers',
         'X'         => 'x_subscribers',
-        'F'         => 'fanvue_subscribers'
+        'twitch'    => 'twitch_subscribers',
+        'youtube'   => 'youtube_subscribers'
     ];
 }
 
