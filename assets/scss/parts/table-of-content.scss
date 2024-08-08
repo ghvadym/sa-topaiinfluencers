@@ -1,0 +1,52 @@
+.ez-toc-counter {
+    background: rgb(35, 11, 78);
+    background: linear-gradient(25deg, rgba(35, 11, 78, 1) 0%, rgba(29, 14, 41, 1) 51%, rgba(77, 11, 85, 1) 100%);
+    border-radius: 24px;
+    padding: 32px 40px;
+    max-width: fit-content;
+
+    ul, ol {
+        margin: 0 !important;
+    }
+}
+
+.ez-toc-title {
+    font-family: 'Bruno Ace SC', sans-serif;
+    font-size: 28px !important;
+    margin-bottom: 16px !important;
+}
+
+.ez-toc-title-toggle {
+    display: none;
+}
+
+.ez-toc-link {
+    font-size: 22px !important;
+    font-weight: 300;
+
+    @include response-min($desktop) {
+        &:hover {
+            color: rgba(207, 0, 218, 1);
+        }
+    }
+}
+
+.ez-toc-list {
+    list-style-type: decimal !important;
+
+    li {
+        margin-bottom: 16px !important;
+
+        &:not(:last-child) {
+            margin-bottom: 8px !important;
+        }
+
+        &:before, &:after {
+            content: none !important;
+        }
+    }
+
+    & > li {
+        padding-left: 0 !important;
+    }
+}
