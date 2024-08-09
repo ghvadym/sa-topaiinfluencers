@@ -31,10 +31,13 @@ $contentBlocks = array_filter($contentBlocks);
             <?php } ?>
         <?php } ?>
         <div class="text_block">
-            <div class="single__content card">
-                <?php get_template_part_var('cards/card-single', [
-                    'post' => $post
-                ]); ?>
+            <div class="single__content_aside">
+                <div class="single__content card">
+                    <?php get_template_part_var('cards/card-single', [
+                        'post' => $post
+                    ]); ?>
+                </div>
+                <?php echo do_shortcode('[ez-toc]'); ?>
             </div>
 
             <?php if (!empty($contentBlocks)) { ?>

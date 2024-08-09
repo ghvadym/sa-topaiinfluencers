@@ -9,6 +9,23 @@
         margin: 0 !important;
         list-style: initial !important;
 
+        li {
+            list-style-position: inside !important;
+
+            a {
+                display: inline;
+            }
+        }
+
+        li, a {
+            font-size: 22px !important;
+            font-weight: 300;
+
+            @include response-max($mobile) {
+                font-size: 16px !important;
+            }
+        }
+
         @include response-min($desktop) {
             li {
                 &, &::marker {
@@ -44,17 +61,8 @@
     display: none;
 }
 
-.ez-toc-link {
-    font-size: 22px !important;
-    font-weight: 300;
-
-    @include response-max($mobile) {
-        font-size: 16px !important;
-    }
-}
-
 .ez-toc-list {
-    padding-left: 17px !important;
+    padding-left: 4px !important;
 
     li {
         &:not(:last-child) {
@@ -69,7 +77,6 @@
     & > li {
         padding-left: 0 !important;
         list-style-type: decimal !important;
-        list-style-position: inside;
 
         a + ul {
             &, ul {
@@ -78,9 +85,35 @@
 
             li {
                 list-style-type: lower-alpha !important;
-                list-style-position: inside;
-                padding-left: 0 !important;
+
+                a + ul {
+                    li {
+                        list-style-type: circle !important;
+                    }
+                }
             }
+        }
+    }
+}
+
+section.single {
+    .ez-toc-counter {
+        padding: 24px;
+        max-width: 100%;
+    }
+
+    li, a {
+        font-size: 19px !important;
+        line-height: 1.4;
+
+        @include response-max($mobile) {
+            font-size: 16px !important;
+        }
+    }
+
+    li ul {
+        li {
+            padding-left: 14px !important;
         }
     }
 }

@@ -126,21 +126,24 @@
     }
 
     &.card {
-        margin: 0 32px 32px 0;
         width: 100%;
         padding: 24px;
         border-radius: 16px;
         background: rgb(71, 0, 186);
         background: linear-gradient(30deg, rgb(28, 8, 63) 9%, rgb(25, 10, 42) 64%, rgb(70, 7, 73) 84%);
+    }
+}
 
-        @include response-min($laptop-landscape) {
-            max-width: 392px;
-            float: left;
-        }
+.single__content_aside {
+    margin: 0 32px 32px 0;
 
-        @include response-max($laptop-landscape - 1) {
-            margin: 0 0 64px;
-        }
+    @include response-min($laptop-landscape) {
+        max-width: 392px;
+        float: left;
+    }
+
+    @include response-max($laptop-landscape - 1) {
+        margin: 0 0 64px;
     }
 }
 
