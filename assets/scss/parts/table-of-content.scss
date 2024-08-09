@@ -1,12 +1,32 @@
 .ez-toc-counter {
-    background: rgb(35, 11, 78);
-    background: linear-gradient(25deg, rgba(35, 11, 78, 1) 0%, rgba(29, 14, 41, 1) 51%, rgba(77, 11, 85, 1) 100%);
+    background: rgb(77, 3, 114);
     border-radius: 24px;
     padding: 32px 40px;
+    margin: 40px 0;
     max-width: fit-content;
 
     ul, ol {
         margin: 0 !important;
+        list-style: initial !important;
+
+        @include response-min($desktop) {
+            li {
+                &, &::marker {
+                    transition: $transition;
+                }
+
+                &:hover, &:focus {
+                    &::marker, & > a {
+                        color: rgba(207, 0, 218, 1);
+                    }
+                }
+            }
+        }
+    }
+
+    @include response-max($mobile) {
+        padding: 24px 28px;
+        margin: 24px 0;
     }
 }
 
@@ -14,6 +34,10 @@
     font-family: 'Bruno Ace SC', sans-serif;
     font-size: 28px !important;
     margin-bottom: 16px !important;
+
+    @include response-max($mobile) {
+        font-size: 24px !important;
+    }
 }
 
 .ez-toc-title-toggle {
@@ -24,21 +48,17 @@
     font-size: 22px !important;
     font-weight: 300;
 
-    @include response-min($desktop) {
-        &:hover {
-            color: rgba(207, 0, 218, 1);
-        }
+    @include response-max($mobile) {
+        font-size: 16px !important;
     }
 }
 
 .ez-toc-list {
-    list-style-type: decimal !important;
+    padding-left: 17px !important;
 
     li {
-        margin-bottom: 16px !important;
-
         &:not(:last-child) {
-            margin-bottom: 8px !important;
+            margin-bottom: 5px !important;
         }
 
         &:before, &:after {
@@ -48,5 +68,19 @@
 
     & > li {
         padding-left: 0 !important;
+        list-style-type: decimal !important;
+        list-style-position: inside;
+
+        a + ul {
+            &, ul {
+                margin-top: 5px !important;
+            }
+
+            li {
+                list-style-type: lower-alpha !important;
+                list-style-position: inside;
+                padding-left: 0 !important;
+            }
+        }
     }
 }
