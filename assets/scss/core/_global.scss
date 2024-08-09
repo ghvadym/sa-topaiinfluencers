@@ -435,6 +435,10 @@ body.single-post {
     }
 }
 
+.content_blocks {
+    margin-bottom: 32px;
+}
+
 .content_block {
     &:not(:last-child) {
         margin-bottom: 40px;
@@ -453,6 +457,10 @@ body.single-post {
 .content_block__img {
     flex-shrink: 0;
 
+    @include response-min($laptop-landscape) {
+        max-width: 500px;
+    }
+
     @include response-max($laptop-landscape - 1) {
         img {
             width: 100%;
@@ -460,8 +468,20 @@ body.single-post {
     }
 }
 
-@include response-max($laptop-landscape) {
-    .content_block__text {
+.content_block__text {
+    p {
+        @include response-min($laptop-portrait) {
+            font-size: 22px;
+            line-height: 31px;
+        }
+
+        @include response-max($mobile) {
+            font-size: 16px;
+            line-height: 22.4px;
+        }
+    }
+
+    @include response-max($laptop-landscape) {
         margin-bottom: 24px;
     }
 }
@@ -645,6 +665,87 @@ body.single-post {
 
             @include response-min($laptop-landscape) {
                 display: none;
+            }
+        }
+    }
+}
+
+.page {
+    .ez-toc-counter {
+        margin: 0 32px 0 0;
+
+        @include response-min($laptop-landscape) {
+            max-width: 392px;
+            float: left;
+        }
+
+        @include response-max($laptop-landscape - 1) {
+            margin: 0 0 64px;
+        }
+    }
+}
+
+.content_cards {
+    margin: 40px 0;
+
+    @include response-max($laptop-landscape - 1) {
+        margin: 16px 0;
+    }
+}
+
+.content_cards__list {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+
+    @include response-max($laptop-landscape - 1) {
+        gap: 16px;
+    }
+
+    @include response-max($mobile) {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.content_card__item {
+    background: rgb(11, 2, 28);
+    border-radius: 16px;
+    width: 100%;
+    padding: 24px;
+
+    @include response-min($laptop-landscape) {
+        max-width: calc(100% / 3 - 32px);
+    }
+
+    @include response-max($laptop-landscape - 1) {
+        max-width: 380px;
+        padding: 16px;
+    }
+}
+
+.content_card__img {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 40px;
+}
+
+.content_card__text {
+    p {
+        font-size: 22px;
+        text-align: center;
+        line-height: 1.4;
+    }
+}
+
+.page-template-partnership {
+    .page_content {
+        .text_block_full {
+            ul {
+                li {
+                    display: flow-root;
+                }
             }
         }
     }

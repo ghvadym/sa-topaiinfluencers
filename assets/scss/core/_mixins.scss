@@ -154,7 +154,7 @@
             }
 
             &:after {
-                left: 3px;
+                left: 2.5px;
                 width: 7px;
                 height: 7px;
                 background-color: #fff;
@@ -171,6 +171,10 @@
 
     .wp-block-image {
         margin-bottom: 24px;
+
+        figure {
+            clear: unset;
+        }
     }
 
     iframe {

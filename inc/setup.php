@@ -117,6 +117,18 @@ function top_influencers_call($atts)
     return ob_get_clean();
 }
 
+add_shortcode('content_blocks', 'content_blocks_call');
+function content_blocks_call($atts)
+{
+    ob_start();
+
+    get_template_part_var('global/content-blocks', [
+        'blocks' => get_field('content_blocks')
+    ]);
+
+    return ob_get_clean();
+}
+
 add_filter('cron_schedules', 'cron_schedules_call');
 function cron_schedules_call($schedules)
 {
