@@ -8,7 +8,7 @@ $socials = socials();
 unset($socials['F']);
 ?>
 
-<div class="table">
+<div class="table top_influencers">
     <div class="table__head">
         <div class="table__row">
             <div class="table__cell">#</div>

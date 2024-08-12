@@ -117,6 +117,29 @@ function top_influencers_call($atts)
     return ob_get_clean();
 }
 
+add_shortcode('services_table', 'services_table_call');
+function services_table_call($atts)
+{
+    $atts = shortcode_atts([
+        'count' => -1
+    ], $atts);
+
+    $args = [
+        'post_type'   => 'service',
+        'numberposts' => $atts['count']
+    ];
+
+    $services = _get_posts($args);
+
+    ob_start();
+
+    get_template_part_var('global/services-table', [
+        'services' => $services
+    ]);
+
+    return ob_get_clean();
+}
+
 add_shortcode('content_blocks', 'content_blocks_call');
 function content_blocks_call($atts)
 {

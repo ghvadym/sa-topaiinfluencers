@@ -4,6 +4,18 @@ add_action('init', 'create_post_types');
 
 function create_post_types()
 {
+    create_post_type('service', [
+        'publicly_queryable' => false,
+        'menu_position'      => 10,
+        'menu_icon'          => 'dashicons-list-view',
+        'supports'           => ['title', 'thumbnail'],
+        'labels'             => [
+            'name'          => __('Services', DOMAIN),
+            'singular_name' => __('Service', DOMAIN),
+            'menu_name'     => __('Services', DOMAIN)
+        ]
+    ]);
+
     create_post_type('blog', [
         'menu_position' => 9,
         'show_in_rest'  => true,

@@ -269,3 +269,26 @@ function short_number_format(int $number = 0)
         return number_format($number / 1000000000) . 'B';
     }
 }
+
+function rating($rating)
+{
+    $colorActive = '#FCC63C';
+    $colorNotActive = '#fff';
+
+    for ($i = 1; $i <= 5; $i++) {
+        if ($rating > $i) {
+            get_template_part_var('svg/star', [
+                'color' => $colorActive
+            ]);
+        } else {
+            $left = $i - $rating;
+            if ($left && $left < 1 && $left <= 0.5) {
+                get_svg('star-half-rated');
+            } else {
+                get_template_part_var('svg/star', [
+                    'color' => $colorNotActive
+                ]);
+            }
+        }
+    }
+}

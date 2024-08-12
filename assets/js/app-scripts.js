@@ -258,24 +258,5 @@
                 }
             });
         }
-
-        if ($('body').hasClass('single-post')) {
-            const tableLinks = $('.ez-toc-counter .ez-toc-link');
-            if (tableLinks.length) {
-                $(tableLinks).each(function (i, item) {
-                    const headingHref = $(item).attr('href');
-                    const headingId = headingHref.substring(1);
-                    const headingTitle = $(item).attr('title');
-
-                    const heading = $(`.wp-block-heading:contains(${headingTitle})`);
-                    if (!heading) {
-                        return;
-                    }
-
-                    $(heading).prepend(`<span class="ez-toc-section" id="${headingId}"></span>`);
-                    $(heading).append(`<span class="ez-toc-section-end"></span>`);
-                });
-            }
-        }
     });
 })(jQuery);
