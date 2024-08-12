@@ -121,7 +121,7 @@ add_shortcode('services_table', 'services_table_call');
 function services_table_call($atts)
 {
     $atts = shortcode_atts([
-        'count' => -1
+        'count' => 10
     ], $atts);
 
     $args = [
@@ -129,12 +129,18 @@ function services_table_call($atts)
         'numberposts' => $atts['count']
     ];
 
-    $services = _get_posts($args);
+    $services = get_field('services');
+
+    if (!empty($services)) {
+        $args['include'] = $services;
+    }
+
+    $posts = _get_posts($args);
 
     ob_start();
 
     get_template_part_var('global/services-table', [
-        'services' => $services
+        'services' => $posts
     ]);
 
     return ob_get_clean();
