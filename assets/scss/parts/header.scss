@@ -86,7 +86,7 @@
                 }
             }
 
-            &.current-menu-item {
+            &.current-menu-item:not(.partner) {
                 a {
                     text-decoration: none;
                     pointer-events: none;

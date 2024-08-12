@@ -6,6 +6,9 @@ get_header();
 $post = get_post();
 $fields = get_fields($post->ID);
 $contents = $fields['content'] ?? [];
+
+$contentBlocks = $post->post_content ? explode('<!-- wp:heading -->', $post->post_content) : [];
+$contentBlocks = array_filter($contentBlocks);
 ?>
 
 <section class="page">
@@ -47,7 +50,13 @@ $contents = $fields['content'] ?? [];
             <div class="page_content">
                 <?php echo do_shortcode('[ez-toc]'); ?>
                 <div class="text_block_full">
-                    <?php the_content(); ?>
+                    <?php if (!empty($contentBlocks)) { ?>
+                        <?php foreach ($contentBlocks as $content) { ?>
+                            <div class="single__content">
+                                <?php echo apply_filters('the_content', $content); ?>
+                            </div>
+                        <?php } ?>
+                    <?php } ?>
                 </div>
             </div>
         <?php } ?>
